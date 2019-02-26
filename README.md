@@ -1,1 +1,1 @@
-# MISIS-caht_project
+# MISIS-chat_project
