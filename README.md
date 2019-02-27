@@ -5,13 +5,13 @@
 2. Установить Pycharm
 В Pycharm необходимо использовать интерпретатор python 3.6
 Необходимо в интерпретаторе установить библиотеки:
-  1. socket
-  2. threading
-  3. tkinter
-  4. urllib
-  5. sqlalchemy (ORM)
+1. socket
+2. threading
+3. tkinter
+4. urllib
+5. sqlalchemy (ORM)
 Алгоритм запуска программы:
-  1.Запустить Pycharm
-  2.Запустить сервер (файл server.py)
-  3.Запустить клиент (файл client.py)
-  4.В качестве сервера используется локальный MS SQL Server
+1.Запустить Pycharm
+2.Запустить сервер (файл server.py)
+3.Запустить клиент (файл client.py)
+4.В качестве сервера используется локальный MS SQL Server
