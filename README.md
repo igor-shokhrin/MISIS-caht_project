@@ -10,7 +10,6 @@
 3. tkinter
 4. urllib
 5. sqlalchemy (ORM)
-
 Алгоритм запуска программы:
 1.Запустить Pycharm
 2.Запустить сервер (файл server.py)
