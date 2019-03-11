@@ -1,3 +1,6 @@
+import requests
+import getpass
+
 class VKAuth(object):
 
     def __init__(self, permissions, app_id, api_v, email=None, pswd=None, two_factor_auth=False, security_code=None, auto_access=True):

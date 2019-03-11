@@ -5,7 +5,7 @@ import sqlalchemy
 
 
 if __name__ == "__main__":
-
+    SERVER.listen(5)
     params = urllib.parse.quote_plus('Driver={SQL Server};'
                                      'Server=DESKTOP-SN1834C\SQLEXPRESS;'
                                      'Database=Server;')
