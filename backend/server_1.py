@@ -2,6 +2,11 @@ from flask import Flask, render_template, request, url_for, jsonify
 import kontakt, vk
 app = Flask(__name__)
 
+@app.route('/for_test', methods=['POST'])
+def for_test():
+    test_value = request.form["test_name"]
+    return render_template('for_test.html', test_value=test_value)
+
 @app.route('/tests/endpoint', methods=['POST'])
 def my_test_endpoint():
     input_json = request.get_json(force=True)
