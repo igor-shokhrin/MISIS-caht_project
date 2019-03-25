@@ -1,16 +1,30 @@
 
-# Импортируем нужные модули
-from urllib.request import urlretrieve
-import vk, os, time, math
 
-# Авторизация
+import vk
+#from PIL import Image, ImageDraw
 
-login = ''
-password = ''
 vk_id = '6889284'
+def get_circle_img(input_img, output_img):
+    img = Image.open(input_img)
+    bigsize = img.size[0] * 3, img.size[1] * 3
+    mask = Image.new('L', bigsize, 0)
 
-session = vk.AuthSession(app_id=vk_id, user_login=login, user_password=password)
+    draw = ImageDraw.Draw(mask)
+    draw.ellipse((0, 0) + bigsize, fill=255)
 
-vkapi = vk.API(session)
+    mask = mask.resize(img.size, Image.ANTIALIAS)
+    img.putalpha(mask)
+    img.save(output_img)
 
-print(vkapi.users.get(fields="photo_200_orig",v="2.0.2",))
+def get_user_photo(login, password):
+    session = vk.AuthSession(app_id="6889284", user_login=login, user_password=password)
+    vkapi = vk.API(session)
+    return vkapi.users.get(fields="photo_200_orig",v="2.0.2")
+while(1):
+    try:
+        login = input("Enter username\n")
+        password = input("Enter password\n")
+        print(get_user_photo(login, password))
+        exit(0)
+    except Exception:
+        print("Incorrect username or password, Please re enter\n")
