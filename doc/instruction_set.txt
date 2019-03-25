@@ -11,4 +11,10 @@
             username - Имя пользователя в ВК
             password - пароль в ВК.
         Ответ:
-            {"Error":"0"/"1")
+            {"Error":"0"/"1", "Answer" : "Incorrect username or password"/"Autorization OK")
+    Login - авторизация в чате:
+        Аттрибуты:
+        Ответ:
+    Registration - регистрация в чате (заполнение анкеты):
+        Аттрибуты:
+        Ответ:
