@@ -1,5 +1,3 @@
-
-
 import vk
 #from PIL import Image, ImageDraw
 
@@ -20,11 +18,12 @@ def get_user_photo(login, password):
     session = vk.AuthSession(app_id="6889284", user_login=login, user_password=password)
     vkapi = vk.API(session)
     return vkapi.users.get(fields="photo_200_orig",v="2.0.2")
-while(1):
-    try:
-        login = input("Enter username\n")
-        password = input("Enter password\n")
-        print(get_user_photo(login, password))
-        exit(0)
-    except Exception:
-        print("Incorrect username or password, Please re enter\n")
+# while(1):
+#     try:
+#         login = input("Enter username\n")
+#         password = input("Enter password\n")
+#         print(get_user_photo(login, password))
+#         exit(0)
+#     except Exception:
+#         pass
+#     print("Incorrect username or password, Please re enter\n")
