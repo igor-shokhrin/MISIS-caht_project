@@ -15,10 +15,12 @@ def for_test():
     print(input_json['cmd'])
     if (input_json['cmd'] == 'VK_Autorization'):
         try:
-            kontakt.get_user_photo(input_json['username'], input_json['password'])
+            a = kontakt.get_user_photo(input_json['username'], input_json['password'])
         except vk.exceptions.VkAuthError:
             return render_template('for_test.html', {'answer': 'Incorrect username or password'})
-    return render_template('for_test.html', {'answer': 'Autorization OK'})
+    print("asdsad", a)
+    # return render_template('for_test.html', {'answer': 'Autorization OK'})
+    return render_template('for_test.html', {'answer': a})
     #return render_template('for_test.html', test_value=test_value)
 
 @app.route('/')
@@ -53,7 +55,7 @@ def my_test_endpoint():
     print(input_json['cmd'])
     if(input_json['cmd'] == 'VK_Autorization'):
         try:
-            kontakt.get_user_photo(input_json['username'],input_json['password'])
+            print(kontakt.get_user_photo(input_json['username'],input_json['password']))
         except vk.exceptions.VkAuthError:
             return jsonify({'answer' : 'Incorrect username or password'})
         return jsonify({'answer':'Autorization OK'})
@@ -62,12 +64,16 @@ def my_test_endpoint():
     elif(input_json['cmd'] == 'send_msg'):
         print(input_json)
         send_msg(meta.tables['messaging'], conn, input_json)
+        return jsonify({'answer': 'send_msg OK'})
     elif(input_json['cmd'] == 'create_new_user'):
         print(input_json)
         set_new_user(meta.tables['user'], conn, input_json)
+        return jsonify({'answer': 'create_new_user OK'})
     elif(input_json['cmd'] == 'create_new_dialog'):
         print(input_json)
         set_new_dialog(meta.tables['dialogs'], conn, input_json)
+        return jsonify({'answer': 'create_new_dialog OK'})
+
 
 def get_msg(table, conn):
     d = conn.execute(sqlalchemy.select([table]), autoincrement=True)
@@ -83,13 +89,13 @@ def get_msg(table, conn):
     return {"msg":m}
 
 def send_msg(table, conn, dict):
-    conn.execute(table.insert().values(id = 2, text = str(dict["text"]), id_dialog=int(dict["id_dialog"]), id_user=int(dict["id_user"]), time = str("00:00")))
+    conn.execute(table.insert().values(text = str(dict["text"]), id_dialog=int(dict["id_dialog"]), id_user=int(dict["id_user"]), time = str("00:00")))
 
 def set_new_user(table, conn, dict):
-    conn.execute(table.insert().values(id_user = 2, Name = str(dict["Name"]), D_birth=str(dict["D_birth"]), age=int(dict["age"]), sex = str(dict["sex"]), city = str(dict["city"])))
+    conn.execute(table.insert().values(Name = str(dict["Name"]), D_birth=str(dict["D_birth"]), age=int(dict["age"]), sex = str(dict["sex"]), city = str(dict["city"])))
 
 def set_new_dialog(table, conn, dict):
-        conn.execute(table.insert().values(id_dialog = 2, Name = str(dict["Name"]), create_date=str(dict["create_date"]), capacity=int(dict["capacity"])))
+        conn.execute(table.insert().values(Name = str(dict["Name"]), create_date=str(dict["create_date"]), capacity=int(dict["capacity"])))
 
 
 if __name__ == '__main__':

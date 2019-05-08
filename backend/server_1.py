@@ -19,7 +19,7 @@ def for_test():
             kontakt.get_user_photo(input_json['username'], input_json['password'])
         except vk.exceptions.VkAuthError:
             return render_template('for_test.html', {'answer': 'Incorrect username or password'})
-    return render_template('for_test.html', {'answer': 'Autorization OK'})
+    return render_template('for_test.html', {'answer': 'Autorization OK1'})
     #return render_template('for_test.html', test_value=test_value)
 
 @app.route('/')
