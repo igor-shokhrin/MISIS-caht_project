@@ -65,7 +65,7 @@
 /* ////////////////////////////////////////////////////////////////////////// */
 
 .fa { width: 1.25em; margin-right: 0.5em; font-size: 1.25em; text-align: center; }
-   A {
+   A  {
     color: black; /* Цвет ссылок */
    }
       A:visited {
@@ -82,10 +82,24 @@
 
 
 .cont-top {
+    height: 65px;
+
+    padding-top: 15px; /* Поле сверху */
+    padding-bottom: 0px; /* Поле сверху */
   width: 100%;
   margin: 0 auto;
-}
+  top:0px !important;
+position: fixed;
+    z-index: 9999;
+      background-color: #ffffff; /* Цвет фона веб-страницы */
 
+}
+.online{
+        color: #2cff00; /* Цвет фона веб-страницы */
+}
+.offline{
+        color: #ff0013; /* Цвет фона веб-страницы */
+}
 .top-menu{
   display: inline;
   text-align: center;
@@ -93,7 +107,7 @@
 
 .a-top {
   display: inline-block;
-  width: 14%;
+  width: 12%;
   padding: .75rem 0;
   margin: 0;
   text-decoration: none;
@@ -101,34 +115,40 @@
 }
 
 .two:hover ~ hr {
-  margin-left: 14%;
+  margin-left: 12%;
 }
 
 .three:hover ~ hr {
-  margin-left: 28%;
+  margin-left: 24%;
 }
 
 .four:hover ~ hr {
-  margin-left: 42%;
+  margin-left: 36%;
 }
 
 .five:hover ~ hr {
-  margin-left: 56%;
+  margin-left: 48%;
 }
 
 .six:hover ~ hr {
-  margin-left: 70%;
+  margin-left: 60%;
 }
 
 .seven:hover ~ hr {
-  margin-left: 84%;
+  margin-left: 72%;
 }
-
+.eight:hover ~ hr {
+  margin-left: 87.5%;
+}
 hr {
   height: .25rem;
-  width: 14%;
+  width: 12.5%;
   margin: 0;
   background: tomato;
   border: none;
   transition: .3s ease-in-out;
+}
+
+.outgoing_msg_s{
+    width: 80%;
 }
