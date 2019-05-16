@@ -73,6 +73,14 @@ def my_test_endpoint():
         print(input_json)
         set_new_dialog(meta.tables['dialogs'], conn, input_json)
         return jsonify({'answer': 'create_new_dialog OK'})
+    elif(input_json['cmd'] == 'get_users'):
+        print(input_json)
+        ans = get_users(meta.tables['user'], conn)
+        return jsonify({'answer': ans})
+    elif(input_json['cmd'] == 'get_dialogs'):
+        print(input_json)
+        ans = get_users(meta.tables['dialogs'], conn)
+        return jsonify({'answer': ans})
 
 
 def get_msg(table, conn):
@@ -96,6 +104,41 @@ def set_new_user(table, conn, dict):
 
 def set_new_dialog(table, conn, dict):
         conn.execute(table.insert().values(Name = str(dict["Name"]), create_date=str(dict["create_date"]), capacity=int(dict["capacity"])))
+
+def get_users(table, conn):
+    d = conn.execute(sqlalchemy.select([table]), autoincrement=True)
+    print(d)
+    print(d.keys())
+    m = []
+    for i in d:
+        s = {}
+        for k in range(len(d.keys())):
+            s[d.keys()[k]] = str(i[k])
+        m.append(s)
+    for i in m:
+        # print(i)
+        # print(str(i), "utf8")
+        for k in range(10000):
+            pass
+    return m
+
+def get_dialogs(table, conn):
+    d = conn.execute(sqlalchemy.select([table]), autoincrement=True)
+    print(d)
+    print(d.keys())
+    m = []
+    for i in d:
+        s = {}
+        for k in range(len(d.keys())):
+            s[d.keys()[k]] = str(i[k])
+        m.append(s)
+    for i in m:
+        # print(i)
+        # print(str(i), "utf8")
+        for k in range(10000):
+            pass
+    return m
+
 
 
 if __name__ == '__main__':
