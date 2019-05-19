@@ -83,8 +83,43 @@ def my_test_endpoint():
         return jsonify({'answer': ans})
     elif(input_json['cmd'] == 'get_dialogs'):
         print(input_json)
-        ans = get_users(meta.tables['dialogs'], conn)
+        ans = get_dialogs(meta.tables['dialogs'], conn)
         return jsonify({'answer': ans})
+    elif (input_json['cmd'] == 'test'):
+        print(input_json)
+        ans = test(meta.tables['user'], conn)
+        return jsonify({'answer': ans})
+    elif (input_json['cmd'] == 'login'):
+        print(input_json)
+        ans = login(meta.tables['user'], conn, input_json)
+        return jsonify({'answer': ans})
+
+def login(table, conn, input_json):
+    d = conn.execute(sqlalchemy.select([table]), autoincrement=True)
+    print(d)
+    for i in d:
+       if(i["login"] == input_json["login"]):
+           if(i["pas"] == input_json["pas"]):
+               return {"ans" : "Authorization success", "id" : i["id_user"]}
+           else:
+               return {"ans" : "Incorrect login or password"}
+    return {"ans": "Incorrect login or password"}
+
+
+def test(table, conn):
+    d = conn.execute(sqlalchemy.select([table]), autoincrement=True)
+    print(d, d.keys)
+    for i in d:
+        print(i["id_user"])
+        # if(i["id_user"] == 1): i["photo"] = "asdas"
+    # print(d.keys() == "id")
+    m = []
+    for i in d:
+        m.append(i[1] + ': ' + i[2])
+    tabl = sqlalchemy.Table(table)
+    print(tabl)
+    # conn.execute(sqlalchemy.update([table]).where("id_user" == 1).values(photo='user #5'))
+    return {"msg":m}
 
 
 def get_msg(table, conn):
