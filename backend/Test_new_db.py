@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, url_for, jsonify
 import kontakt, vk
+import datetime
 from socket import AF_INET, socket, SOCK_STREAM
 from threading import Thread
 import urllib
@@ -55,9 +56,12 @@ def my_test_endpoint():
     print(input_json['cmd'])
     if(input_json['cmd'] == 'VK_Autorization'):
         try:
-            print(kontakt.get_user_photo(input_json['username'],input_json['password']))
+            a = kontakt.get_user_photo(input_json['username'],input_json['password'])
+            print(int(datetime.datetime.now().year) - int(str(a[0]['bdate'])[4:]))
         except vk.exceptions.VkAuthError:
             return jsonify({'answer' : 'Incorrect username or password'})
+        print(datetime.datetime.now().year)
+        print(a)
         return jsonify({'answer':'Autorization OK'})
     if(input_json['cmd'] == 'get_msg'):
         return jsonify(get_msg(meta.tables['messaging'], conn))
@@ -100,7 +104,7 @@ def send_msg(table, conn, dict):
     conn.execute(table.insert().values(text = str(dict["text"]), id_dialog=int(dict["id_dialog"]), id_user=int(dict["id_user"]), time = str("00:00")))
 
 def set_new_user(table, conn, dict):
-    conn.execute(table.insert().values(Name = str(dict["Name"]), D_birth=str(dict["D_birth"]), age=int(dict["age"]), sex = str(dict["sex"]), city = str(dict["city"])))
+    conn.execute(table.insert().values(first_name = str(dict["first_name"]), last_name = str(dict["last_name"]), pas = str(dict["pas"]), login = str(dict["login"]),  D_birth=str(dict["D_birth"]), age=int(dict["age"]), sex = str(dict["sex"]), city = str(dict["city"])))
 
 def set_new_dialog(table, conn, dict):
         conn.execute(table.insert().values(Name = str(dict["Name"]), create_date=str(dict["create_date"]), capacity=int(dict["capacity"])))
