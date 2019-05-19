@@ -66,33 +66,61 @@ def my_test_endpoint():
     if(input_json['cmd'] == 'get_msg'):
         return jsonify(get_msg(meta.tables['messaging'], conn))
     elif(input_json['cmd'] == 'send_msg'):
-        print(input_json)
         send_msg(meta.tables['messaging'], conn, input_json)
         return jsonify({'answer': 'send_msg OK'})
     elif(input_json['cmd'] == 'create_new_user'):
-        print(input_json)
         set_new_user(meta.tables['user'], conn, input_json)
         return jsonify({'answer': 'create_new_user OK'})
     elif(input_json['cmd'] == 'create_new_dialog'):
-        print(input_json)
         set_new_dialog(meta.tables['dialogs'], conn, input_json)
         return jsonify({'answer': 'create_new_dialog OK'})
     elif(input_json['cmd'] == 'get_users'):
-        print(input_json)
         ans = get_users(meta.tables['user'], conn)
         return jsonify({'answer': ans})
     elif(input_json['cmd'] == 'get_dialogs'):
-        print(input_json)
         ans = get_dialogs(meta.tables['dialogs'], conn)
         return jsonify({'answer': ans})
     elif (input_json['cmd'] == 'test'):
-        print(input_json)
         ans = test(meta.tables['user'], conn)
         return jsonify({'answer': ans})
     elif (input_json['cmd'] == 'login'):
-        print(input_json)
         ans = login(meta.tables['user'], conn, input_json)
         return jsonify({'answer': ans})
+    # elif (input_json['cmd'] == 'registration'):
+    #     ans = registration(meta.tables['user'], conn, input_json)
+    #     return jsonify({'answer': ans})
+    elif (input_json['cmd'] == 'get_user_info'):
+        ans = get_user_info(meta.tables['user'], conn, input_json)
+        return jsonify({'answer': ans})
+
+def get_user_info(table, conn, input_json):
+    d = conn.execute(sqlalchemy.select([table]), autoincrement=True)
+    print(d)
+    print(d.keys())
+    m = []
+    s = {}
+    for i in d:
+        print(i)
+        if(i["id_user"] == input_json["id_user"]):
+            for k in range(len(d.keys())):
+                s[d.keys()[k]] = str(i[k])
+            print(s)
+            return s
+    return {"ans": "User with this id not find"}
+
+
+
+# def registration(table, conn, input_json): #Attention TO DO----------------------------------------------
+#     d = conn.execute(sqlalchemy.select([table]), autoincrement=True)
+#     print(d)
+#     for i in d:
+#        if(i["login"] == input_json["login"]):
+#            if(i["pas"] == input_json["pas"]):
+#                return {"ans" : "Authorization success", "id" : i["id_user"]}
+#            else:
+#                return {"ans" : "Incorrect login or password"}
+#     return {"ans": "Incorrect login or password"}
+
 
 def login(table, conn, input_json):
     d = conn.execute(sqlalchemy.select([table]), autoincrement=True)
@@ -181,7 +209,7 @@ def get_dialogs(table, conn):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='192.168.31.195', port=5000, debug=True)
     print("sad")
     # params = urllib.parse.quote_plus('Driver={SQL Server};'
     #                                  'Server=DESKTOP-SN1834C\SQLEXPRESS;'
