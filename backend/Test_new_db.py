@@ -92,6 +92,22 @@ def my_test_endpoint():
     elif (input_json['cmd'] == 'get_user_info'):
         ans = get_user_info(meta.tables['user'], conn, input_json)
         return jsonify({'answer': ans})
+    elif (input_json['cmd'] == 'get_user_from_dialog'):
+        ans = get_user_from_dialog(meta.tables['user_dialog'], conn, input_json)
+        return jsonify({'answer': ans})
+
+def get_user_from_dialog(table, conn, input_json):
+    d = conn.execute(sqlalchemy.select([table]), autoincrement=True)
+    print(d)
+    print(d.keys())
+    m = []
+    for i in d:
+        print(i)
+        if(i["id_dialog"] == input_json["id_dialog"]):
+            m.append(i["id_user"])
+    if(len(m) > 0):
+        return {"ans": m}
+    return {"ans": "This dialog not found"}
 
 def get_user_info(table, conn, input_json):
     d = conn.execute(sqlalchemy.select([table]), autoincrement=True)
@@ -178,10 +194,11 @@ def get_users(table, conn):
     print(d.keys())
     m = []
     for i in d:
-        s = {}
-        for k in range(len(d.keys())):
-            s[d.keys()[k]] = str(i[k])
-        m.append(s)
+        # s = {}
+        # for k in range(len(d.keys())):
+        #     s[d.keys()[k]] = str(i[k])
+        # m.append(s)
+        m.append({"id_user": i["id_user"], "first_name": i["first_name"], "last_name": i["last_name"], "photo": i["photo"]})
     for i in m:
         # print(i)
         # print(str(i), "utf8")
