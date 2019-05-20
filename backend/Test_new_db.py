@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, url_for, jsonify
 import kontakt, vk
 import datetime
+import weather
 from socket import AF_INET, socket, SOCK_STREAM
 from threading import Thread
 import urllib
@@ -94,6 +95,14 @@ def my_test_endpoint():
         return jsonify({'answer': ans})
     elif (input_json['cmd'] == 'get_user_from_dialog'):
         ans = get_user_from_dialog(meta.tables['user_dialog'], conn, input_json)
+        return jsonify({'answer': ans})
+    elif (input_json['cmd'] == 'weather_now'):
+        ans = weather.WeatherNow(weather.GetCityId(input_json["city"]))
+        print(ans)
+        return jsonify({'answer': ans})
+    elif (input_json['cmd'] == 'weather_to_five_days'):
+        ans = weather.WeatherToFiveDays(weather.GetCityId(input_json["city"]))
+        print(ans)
         return jsonify({'answer': ans})
 
 def get_user_from_dialog(table, conn, input_json):
