@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, url_for, jsonify
 import kontakt, vk
 import datetime
 import weather
+from dateutil.relativedelta import relativedelta
 from socket import AF_INET, socket, SOCK_STREAM
 from threading import Thread
 import urllib
@@ -58,7 +59,9 @@ def my_test_endpoint():
     if(input_json['cmd'] == 'VK_Autorization'):
         try:
             a = kontakt.get_user_photo(input_json['username'],input_json['password'])
-            print(int(datetime.datetime.now().year) - int(str(a[0]['bdate'])[4:]))
+            # print(int(datetime.datetime.now().year) - int(str(a[0]['bdate'])[4:]))
+            dictr = {"first_name": a[0]["first_name"], "last_name" : a[0]["last_name"], "pas" : input_json["password"], "login" : input_json["username"],  "D_birth" : a[0]["bdate"], "age" : int(datetime.datetime.now().year) - int(datetime.datetime.strptime(str(a[0]['bdate']), "%d.%m.%Y").year), "sex" : get_sex(a[0]["sex"]), "city" : a[0]["city"]["title"], "photo" :   a[0]["photo_50"], "status": ""}
+            set_new_user(meta.tables['user'], conn, dictr)
         except vk.exceptions.VkAuthError:
             return jsonify({'answer' : 'Incorrect username or password'})
         print(datetime.datetime.now().year)
@@ -104,6 +107,25 @@ def my_test_endpoint():
         ans = weather.WeatherToFiveDays(weather.GetCityId(input_json["city"]))
         print(ans)
         return jsonify({'answer': ans})
+    elif (input_json['cmd'] == 'get_msg_from_dialog'):
+        ans = get_msg_from_dialog(meta.tables["messaging"], conn, input_json)
+        print(ans)
+        return jsonify({'answer': ans})
+
+def get_msg_from_dialog(table, conn, input_json):
+    lst = []
+    d = conn.execute(sqlalchemy.select([table]), autoincrement=True)
+    print(d)
+    m = []
+    for i in d:
+        if(i["id_dialog"] == input_json["id_dialog"]):
+            lst.append({"user" : i["id_user"], "msg" : i["text"]})
+    return lst
+
+def get_sex(id):
+    if(id == 1): return "Female"
+    if(id == 2): return "Male"
+    if(id == 0): return "None"
 
 def get_user_from_dialog(table, conn, input_json):
     d = conn.execute(sqlalchemy.select([table]), autoincrement=True)
@@ -192,7 +214,7 @@ def send_msg(table, conn, dict):
     conn.execute(table.insert().values(text = str(dict["text"]), id_dialog=int(dict["id_dialog"]), id_user=int(dict["id_user"]), time = str("00:00")))
 
 def set_new_user(table, conn, dict):
-    conn.execute(table.insert().values(first_name = str(dict["first_name"]), last_name = str(dict["last_name"]), pas = str(dict["pas"]), login = str(dict["login"]),  D_birth=str(dict["D_birth"]), age=int(dict["age"]), sex = str(dict["sex"]), city = str(dict["city"])))
+    conn.execute(table.insert().values(first_name = str(dict["first_name"]), last_name = str(dict["last_name"]), pas = str(dict["pas"]), login = str(dict["login"]),  D_birth=str(dict["D_birth"]), age=int(dict["age"]), sex = str(dict["sex"]), city = str(dict["city"]), photo = str(dict["photo"]), status =  str(dict["status"])))
 
 def set_new_dialog(table, conn, dict):
         conn.execute(table.insert().values(Name = str(dict["Name"]), create_date=str(dict["create_date"]), capacity=int(dict["capacity"])))

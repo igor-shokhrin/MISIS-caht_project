@@ -18,7 +18,8 @@ def get_user_photo(login, password):
     session = vk.AuthSession(app_id="6889284", user_login=login, user_password=password)
     vkapi = vk.API(session)
 
-    return vkapi.users.get(fields="bdate, city, sex", v="2.0.2")
+    # return vkapi.users.get(fields="bdate, city, sex", v="2.0.2")
+    return vkapi.users.get(fields="bdate, city, sex, photo_50", v="5.95")
 
     # return vkapi.users.get(fields="photo_200_orig",v="2.0.2")
 # while(1):
