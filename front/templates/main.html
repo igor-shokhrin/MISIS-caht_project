@@ -1,103 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-<script src="{{ url_for('static', filename='js/base.js') }}"></script>
+{% extends "base.html" %}
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='ch.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='main2.css') }}">
+{% endblock %}
+{% block title %}
+Чат
+{% endblock %}
 
-
-        <link rel="stylesheet" type="text/css" href="main2.css" >
-
-
-<head>
-    <meta charset="UTF-8">
-            <link rel="stylesheet" type="text/css" href="chatgood.css" >
-<script src="chatnew.js"></script>
-
-    <title>Title</title>
-</head>
-<body>
-        <div class="cont-top">
-          <ul>
-            <li class="one top-menu"><a class="a-top" href="#">Uno</a></li><!--
-         --><li class="two top-menu"><a class="a-top" href="#">Dos</a></li><!--
-         --><li class="three top-menu"><a class="a-top" href="#">Tres</a></li><!--
-         --><li class="four top-menu"><a class="a-top" href="#">Quatro</a></li>
-            <hr />
-          </ul>
-            </div>
+{% block content %}
 <div class="container">
   <div class="row">
 
-    <div id="left" class="col-xs-12  col-xl-3">
-      <div id="myAffix" data-spy="affix" data-offset-top="0">
-        <div id="side_bar_inner" class="side_bar_inner">
-            <nav>
-              <ol>
-                <li id="" class="fancy-hover">
-                  <a href="" class="left_row">
-                    <span class="left_fixer">
-                      <span class="left_icon"></span>
-                      <span class="fa">Чат</span>
-                    </span>
-                  </a>
-                </li>
-                <li id="" class="fancy-hover">
-                    <a href="" onclick="" class="left_row">
-                    <span class="left_fixer">
-                      <span class="left_icon "></span>
-                      <span class="left_label fa">Сообщения</span>
-                    </span>
-                  </a>
-                </li>
-                  <li id="" class="fancy-hover">
-                      <a href="" class="left_row">
-                        <span class="left_fixer">
-                          <span class="left_icon"></span>
-                          <span class="left_label fa">Уведомления</span>
-                        </span>
-                      </a>
-                  </li>
-                  <li id="" class="fancy-hover">
-                      <a href="" class="left_row">
-                        <span class="left_fixer">
-                          <span class="left_icon "></span>
-                          <span class="left_label fa">Новости</span>
-                        </span>
-                      </a>
-                  </li>
-                  <li id="" class="fancy-hover">
-                      <a href="/" class="left_row">
-                        <span class="left_fixer">
-                          <span class="left_icon "></span>
-                          <span class="left_label fa">О нас</span>
-                        </span>
-                      </a>
-                  </li>
-                  <li id="" class="fancy-hover">
-                      <a href="" class="left_row">
-                        <span class="left_fixer">
-                          <span class="left_icon "></span>
-                          <span class="left_label fa">Помощь</span>
-                        </span>
-                      </a>
-                  </li>
-                  <li id="" class="fancy-hover">
-                      <a href="/" class="left_row">
-                        <span class="left_fixer">
-                          <span class="left_icon "></span>
-                          <span class="left_label fa">Copyrights</span>
-                        </span>
-                      </a>
-              </ol>
-            </nav>
-        </div>
-      </div>
-    </div>
-    <div class="col-xs-12 col-lg-8">
+
+    <div  class="col-xs-12  col-xl-12">
 
       <div id="wrapper">
       <div class="chat">
@@ -232,7 +147,7 @@
 	  <div class="type_msg">
 		<div class="input_msg_write">
 		  <input type="text" class="write_msg" placeholder="Type a message" />
-		  <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+		  <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true">&nbsp;</i></button>
 		</div>
 	  </div>
 	</div>
@@ -243,13 +158,5 @@
     </div>
   </div>
 </div>
-<script>
-$(function(){
-  $('#myAffix').width($('#left').width());
-  $(window).resize(function(){
-    $('#myAffix').width($('#left').width());
-  });
-});
-</script>
-</body>
-</html>
+</div>
+{% endblock %}

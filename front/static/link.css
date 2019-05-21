@@ -1,0 +1,12 @@
+   A  {
+    color: #ffffff; /* Цвет ссылок */
+   }
+      A:visited {
+    color: #ffffff; /* Цвет посещенных ссылок */
+   }
+   A:active {
+    color: #ffffff; /* Цвет активных ссылок */
+   }
+   A:hover {
+     text-decoration: none; /* Убирает подчеркивание для ссылок */
+   }

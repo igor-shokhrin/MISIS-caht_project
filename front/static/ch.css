@@ -1,6 +1,7 @@
 /*---------chat window---------------*/
 .container{
-    max-width:900px;
+    max-width:4000px;
+
 }
 .inbox_people {
 	background: #fff;
@@ -29,8 +30,7 @@
 	display: inline-block;
 	text-align: right;
 	width: 60%;
-	padding:
-}
+	}
 
 .headind_srch {
 	padding: 10px 29px 10px 20px;
@@ -70,6 +70,8 @@
 	font-size: 15px;
 	color: #464646;
 	margin: 0 0 8px 0;
+	    white-space: nowrap;
+
 }
 
 .chat_ib h5 span {
@@ -114,7 +116,7 @@
 }
 
 .inbox_chat {
-	height: 550px;
+	height: 475px;
 	overflow-y: scroll;
 }
 
@@ -161,7 +163,7 @@
 
 .mesgs{
 	float: left;
-	padding: 30px 15px 0 25px;
+	padding: 5px 15px 0 10px;
 	width:70%;
 }
 
@@ -191,6 +193,8 @@
 	color: #4c4c4c;
 	font-size: 15px;
 	min-height: 48px;
+height: 48px;
+
 	width: 100%;
 	outline:none;
 }
@@ -219,6 +223,10 @@
 }
 
 .msg_history {
-	height: 516px;
+	height: 466px;
 	overflow-y: auto;
+}
+
+.chat{
+	padding-top: 78px;
 }

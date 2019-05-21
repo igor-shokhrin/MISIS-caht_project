@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='chatgood.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='search.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='main2.css') }}">
+
+{% endblock %}
+{% block title %}
+Чат
+{% endblock %}
+
+{% block content %}
+
+<div class="col-md-7 offset-md-2">
+    <div class="notif">
+        <div class="bl">
+            <div class="tab-content_n">
+                <div class="top-cover center-block">
+                    <div class="icon">
+                    </div>
+                <div class="block">
+                    <h3>Заголовок </h3>
+                    <p>Уведомление</p>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="bl">
+            <div class="tab-content_n">
+                <div class="top-cover center-block">
+                    <div class="icon">
+                    </div>
+                <div class="block">
+                    <h3>Заголовок </h3>
+                    <p>Уведомление</p>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="bl">
+            <div class="tab-content_n">
+                <div class="top-cover center-block">
+                    <div class="icon">
+                    </div>
+                <div class="block">
+                    <h3>Заголовок </h3>
+                    <p>Уведомление</p>
+                </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
