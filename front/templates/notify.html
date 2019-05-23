@@ -13,42 +13,22 @@
 
 <div class="col-md-7 offset-md-2">
     <div class="notif">
-        <div class="bl">
-            <div class="tab-content_n">
-                <div class="top-cover center-block">
-                    <div class="icon">
+        {% if data["notifyes"] %}
+            {% for notify in data["notifyes"] %}
+                <div class="bl">
+                    <div class="tab-content_n">
+                        <div class="top-cover center-block">
+                            <div class="icon">
+                            </div>
+                        <div class="block">
+                            <h3>{{ notify["name"] }} </h3>
+                            <p>{{ notify["text"] }}</p>
+                        </div>
+                        </div>
                     </div>
-                <div class="block">
-                    <h3>Заголовок </h3>
-                    <p>Уведомление</p>
                 </div>
-                </div>
-            </div>
-        </div>
-        <div class="bl">
-            <div class="tab-content_n">
-                <div class="top-cover center-block">
-                    <div class="icon">
-                    </div>
-                <div class="block">
-                    <h3>Заголовок </h3>
-                    <p>Уведомление</p>
-                </div>
-                </div>
-            </div>
-        </div>
-        <div class="bl">
-            <div class="tab-content_n">
-                <div class="top-cover center-block">
-                    <div class="icon">
-                    </div>
-                <div class="block">
-                    <h3>Заголовок </h3>
-                    <p>Уведомление</p>
-                </div>
-                </div>
-            </div>
-        </div>
+            {% endfor %}
+        {% endif %}
 
     </div>
 </div>

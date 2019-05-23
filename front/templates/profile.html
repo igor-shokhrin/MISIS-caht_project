@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='ch.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='main2.css') }}">
+    <script src="{{url_for('static', filename = 'js/profile.js')}}"></script>
 
 
 {% endblock %}
@@ -17,41 +18,52 @@
     <div class="row">
         <div class="container">
             <div id="main">
+        {% if data_g["profile"] %}
 
                 <div class="row" id="real-estates-detail">
                     <div class="col-lg-3 col-md-3 col-xs-12 offset-md-2">
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div class="text-center" id="author">
-                                    <img src="http://bootstraptema.ru/snippets/element/2016/profilesection/myprofile.jpg">
-                                    <h3>Василий Понторезов</h3>
-                                    <small class="label label-warning">Российская Федерация</small>
-                                    <p>Я простой Русский пацан и мне всё по барабану.</p>
-                                    <p class="sosmed-author">
-                                        <a href="#"><i class="fa fa-facebook" title="Facebook"></i></a>
-                                        <a href="#"><i class="fa fa-twitter" title="Twitter"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus" title="Google Plus"></i></a>
-                                        <a href="#"><i class="fa fa-linkedin" title="Linkedin"></i></a>
-                                    </p>
+                                    <div class="ava">
+                                    <img src={{ current_user.ava }}></div>
+                                    <h3>{{ current_user.username }}</h3>
+                                    <p>{{ current_user.status }}</p>
+                                    <p><a href="#" class="sendm"    onclick="rm();">Сообщение</a></p>
+
                                 </div>
+
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4 col-xs-12 ">
                         <table class="table ">
                             <tbody>
-                            <tr><td class="active">Зарегистрирован:</td><td>12-06-2016</td></tr>
-                            <tr><td class="active">Последняя активность:</td><td>12-06-2016 / 09:11</td></tr>
-                            <tr><td class="active">Страна:</td><td>Россия</td></tr>
-                            <tr><td class="active">Город:</td><td>Волгоград</td></tr>
-                            <tr><td class="active">Пол:</td><td>Мужской</td></tr>
-                            <tr><td class="active">Полных лет:</td><td>43</td></tr>
-                            <tr><td class="active">Семейное положение:</td><td>Женат</td></tr>
+                            <tr><td class="active">Зарегистрирован:</td><td>{{ current_user.regtime }}</td></tr>
+                            <tr><td class="active">Дата рождения</td><td>{{ current_user.birth }}</td></tr>
+                            <tr><td class="active">Страна:</td><td>{{ current_user.country }}</td></tr>
+                            <tr><td class="active">Город:</td><td>{{current_user.city }}</td></tr>
+                            <tr><td class="active">Пол:</td><td>{{ current_user.sex }}</td></tr>
+                            <tr><td class="active">Полных лет:</td><td>{{current_user.age }}</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+
+                        {% endif %}
+
             </div>
+                        <div class="row" >
+                    <div class="col-lg-12 col-md-12 col-xs-12">
+<div class="d3 d5">
+
+<form class="sendmes d-none" name="sendu" action="/profile" method="POST">
+  <input class="tem" required name="mtext" type="text" placeholder="Введите сообщение....">
+  <button type="submit" onclick="add();"></button>
+</form>
+</div>
+        </div><!-- /.main -->
+        </div><!-- /.main -->
         </div><!-- /.main -->
     </div><!-- /.container -->
 </div>

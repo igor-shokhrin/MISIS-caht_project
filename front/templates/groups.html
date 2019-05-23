@@ -13,43 +13,35 @@
   <input type="text" placeholder="Поиск...">
   <button type="submit"></button>
 </form>
-</div>
+
 <div class="container">
   <div class="row">
-
-
     <div  class="col-xl-8 offset-xl-2">
-
-
 		<div class="gr">
-		<div class="chat_list">
-		  <div class="chat_people">
-			<div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-			<div class="chat_ib">
+            {% if data["groups"] %}
+                {% for group in data["groups"] %}
+                    <div class="chat_list">
+                      <div class="chat_people">
+                        <div class="chat_img"> <img src={{ group["ava"] }} alt="sunil"> </div>
+                        <div class="chat_ib">
+                            <form name="semd1" action="/friends" method="POST">
+                                <input class="d-none" type="text" value={{ group["url"] }}>
 
+                            <a class="a-top" href="/friends"><h5>{{ group["name"] }} </h5></a>
+                            <br>
+                            <p class="grdes">{{ group["descr"] }}</p></form>
+                            <form class="search_row" name="search" action="/friends" method="POST">
+                              <input class="d-none" required name="id" type="text" value={{ group["url"] }} placeholder="Поиск...">
+                              <button class="green" type="submit"></button>
+                            </form>
+                        </div>
+                      </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+		</div>
+    </div>
+  </div>
+</div>
 
-                <a class="a-top" href="/friends"><h5>Sunil Ranil Ranil Ranil Ranil Rajput </h5></a>
-<br>
-                <p class="grdes">Описанане группыане группыане группыане группыане группые группы.</p>
-			</div>
-		  </div>
-		</div>
-<div class="chat_list">
-		  <div class="chat_people">
-			<div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-			<div class="chat_ib">
-
-
-                <a class="a-top" href="/friends"><h5>Sunil Rajput </h5></a>
-
-                <p class="grdes">Описане группы.</p>
-			</div>
-		  </div>
-		</div>
-
-		</div>
-		</div>
-		</div>
-		</div>
-		</div>
 {% endblock %}

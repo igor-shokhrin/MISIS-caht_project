@@ -12,8 +12,9 @@
 {% block content %}
 
 <div class="d3">
-<form class="search_row">
-  <input type="text" placeholder="Поиск...">
+
+<form class="search_row" name="search" action="/search" method="POST">
+  <input required name="searchtext" type="text" placeholder="Поиск...">
   <button type="submit"></button>
 </form>
 </div>
@@ -23,44 +24,21 @@
 
     <div  class="col-md-10  offset-md-2">
 <div class="found">
+
+        {% if data["messages"] %}
+            {% for message in data["messages"] %}
 		<div class="incoming_msg_s">
-		  <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+		  <div class="incoming_msg_img"> <img src={{ message["ava"] }} alt="sunil"> </div>
 		  <div class="received_msg">
 			<div class="received_withd_msg">
-			  <p>Test which is a new approach to havech to have alla new approach to have ach to have alla new approach to have a
-                  ch to have alla new approach to have a
-                  ch to have alla new approach to have aalla new approach to have alla new approach to have all
-                  ch to have alla new approach to have aalla new approach to have alla new approach to have all
-                  ch to have alla new approach to have aalla new approach to have alla new approach to have all
-                  ch to have alla new approach to have aalla new approach to have alla new approach to have all
-                  ch to have alla new approach to have aalla new approach to have alla new approach to have all
-                  ch to have alla new approach to have aalla new approach to have alla new approach to have all
-                  ch to have alla new approach to have aalla new approach to have alla new approach to have all
-                  a new approach to have alla new approach to have alla new approach to have all
-				solutions</p>
+                                <a class="" href={{ message["profile"] }}><h6>{{ message["name"] }}</h6></a>
+			  <p>{{ message["message"] }}</p>
 			  <span class="time_date"> 11:01 AM    |    June 9</span></div>
 		  </div>
 		</div>
-    <hr class="divide">
-		<div class="incoming_msg_s">
-		  <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-		  <div class="received_msg">
-			<div class="received_withd_msg">
-			  <p>Test which is a new approach to havech to have alla new approach to have ach to have alla new approach to have a
-                  ch to have alla new approach to have a
-                  ch to have alla new approach to have aalla new approach to have alla new approach to have all
-                  ch to have alla new approach to have aalla new approach to have alla new approach to have all
-                  ch to have alla new approach to have aalla new approach to have alla new approach to have all
-                  ch to have alla new approach to have aalla new approach to have alla new approach to have all
-                  ch to have alla new approach to have aalla new approach to have alla new approach to have all
-                  ch to have alla new approach to have aalla new approach to have alla new approach to have all
-                  ch to have alla new approach to have aalla new approach to have alla new approach to have all
-                  a new approach to have alla new approach to have alla new approach to have all
-				solutions</p>
-			  <span class="time_date"> 11:01 AM    |    June 9</span></div>
-		  </div>
-		</div>
-    <hr class="divide">
+        <hr class="divide">
+            {% endfor %}
+        {% endif %}
 
 
 		</div>

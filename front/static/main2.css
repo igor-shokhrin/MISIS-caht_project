@@ -94,6 +94,19 @@ position: fixed;
       background-color: #ffffff; /* Цвет фона веб-страницы */
 
 }
+.cont-top-1 {
+    height: 65px;
+
+    padding-top: 15px; /* Поле сверху */
+    padding-bottom: 0px; /* Поле сверху */
+  width: 100%;
+  margin: 0 auto;
+  top:0px !important;
+position: fixed;
+    z-index: 9999;
+      background-color: #ffffff; /* Цвет фона веб-страницы */
+
+}
 .online{
         color: #2cff00; /* Цвет фона веб-страницы */
 }

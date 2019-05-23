@@ -22,79 +22,23 @@
 
 
 		<div class="gr">
+                        {% if data["members"] %}
+                {% for member in data["members"] %}
 		<div class="chat_list">
 		  <div class="chat_people">
-			<div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+			<div class="chat_img"> <img src={{ member["ava"] }} alt="sunil"> </div>
 			<div class="chat_ib">
-			  <h5>Sunil Rajput <i class="fa fa-check-circle-o    online" aria-hidden="true">&nbsp;</i></h5>
-			  <p>Test, which is a new approach to have all solutions
-				astrology under one roof.</p>
+                                            <a class="a-top" href={{ member["url"] }}><h5>{{ member["name"] }}
+                                            <i class="fa fa-check-circle-o    online" aria-hidden="true">&nbsp;</i>
+                                            </h5></a>
+			  <br>
+			  <p>{{ member["status"] }}</p>
                 <a href="#" class="green">Сообщение</a>
 			</div>
 		  </div>
 		</div>
-		<div class="chat_list">
-		  <div class="chat_people">
-			<div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-			<div class="chat_ib">
-			  <h5>Sunil Rajput <i class="fa fa-check-circle-o offline" aria-hidden="true">&nbsp;</i></h5>			  <p>Test, which is a new approach to have all solutions
-				astrology under one roof.</p>
-                <a href="#" class="green">Сообщение</a>
-			</div>
-		  </div>
-		</div>
-		<div class="chat_list">
-		  <div class="chat_people">
-			<div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-			<div class="chat_ib">
-			  <h5>Sunil Rajput </h5>
-			  <p>Test, which is a new approach to have all solutions
-				astrology under one roof.</p>
-                <a href="#" class="green">Сообщение</a>
-			</div>
-		  </div>
-		</div>		<div class="chat_list">
-		  <div class="chat_people">
-			<div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-			<div class="chat_ib">
-			  <h5>Sunil Rajput </h5>
-			  <p>Test, which is a new approach to have all solutions
-				astrology under one roof.</p>
-                <a href="#" class="green">Сообщение</a>
-			</div>
-		  </div>
-		</div>		<div class="chat_list">
-		  <div class="chat_people">
-			<div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-			<div class="chat_ib">
-			  <h5>Sunil Rajput </h5>
-			  <p>Test, which is a new approach to have all solutions
-				astrology under one roof.</p>
-                <a href="#" class="green">Сообщение</a>
-			</div>
-		  </div>
-		</div>		<div class="chat_list">
-		  <div class="chat_people">
-			<div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-			<div class="chat_ib">
-			  <h5>Sunil Rajput </h5>
-			  <p>Test, which is a new approach to have all solutions
-				astrology under one roof.</p>
-                <a href="#" class="green">Сообщение</a>
-			</div>
-		  </div>
-		</div>		<div class="chat_list">
-		  <div class="chat_people">
-			<div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-			<div class="chat_ib">
-			  <h5>Sunil Rajput </h5>
-			  <p>Test, which is a new approach to have all solutions
-				astrology under one roof.</p>
-                <a href="#" class="green">Сообщение</a>
-			</div>
-		  </div>
-		</div>
-
+                {% endfor %}
+            {% endif %}
 		</div>
 		</div>
 		</div>

@@ -6,10 +6,8 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <link id="bootstrap-css" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<link id="bootstrap-css" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="{{ url_for('static', filename='main2.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='ch.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.min.css') }}">
 {% block style %}{% endblock %}
 
@@ -17,6 +15,8 @@
 
 <head>
     <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
@@ -26,9 +26,11 @@
          --><li class="two top-menu"><a class="a-top" href="/search">Поиск</a></li><!--
          --><li class="three top-menu"><a class="a-top" href="/groups">Группы</a></li><!--
          --><li class="four top-menu"><a class="a-top" href="/notify">Уведомления</a></li><!--
-         --><li class="five top-menu"><a class="a-top" href="#">Календарь</a></li><!--
+         --><li class="five top-menu"><a class="a-top" href="/index">Календарь</a></li><!--
          --><li class="six top-menu"><a class="a-top" href="#">Погода</a></li><!--
-         --><li class="seven top-menu"><a class="a-top" href="/profile">Профиль</a></li><!--
+         --><li class="seven top-menu"><a class="a-top" href="/profile">
+              {{ current_user.username }}
+            </a></li><!--
          --><li class="eight top-menu"><a class="a-top" href="/out">Выход</a></li>
             <hr />
           </ul>
