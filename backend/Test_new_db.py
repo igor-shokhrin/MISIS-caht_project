@@ -62,11 +62,10 @@ def my_test_endpoint():
             # print(int(datetime.datetime.now().year) - int(str(a[0]['bdate'])[4:]))
             dictr = {"first_name": a[0]["first_name"], "last_name" : a[0]["last_name"], "pas" : input_json["password"], "login" : input_json["username"],  "D_birth" : a[0]["bdate"], "age" : int(datetime.datetime.now().year) - int(datetime.datetime.strptime(str(a[0]['bdate']), "%d.%m.%Y").year), "sex" : get_sex(a[0]["sex"]), "city" : a[0]["city"]["title"], "photo" :   a[0]["photo_50"], "status": ""}
             set_new_user(meta.tables['user'], conn, dictr)
+            ans = login(meta.tables['user'], conn, {"pas" : input_json["password"], "login" : input_json["username"]})
         except vk.exceptions.VkAuthError:
             return jsonify({'answer' : 'Incorrect username or password'})
-        print(datetime.datetime.now().year)
-        print(a)
-        return jsonify({'answer':'Autorization OK'})
+        return jsonify({'answer': ans})
     if(input_json['cmd'] == 'get_msg'):
         return jsonify(get_msg(meta.tables['messaging'], conn))
     elif(input_json['cmd'] == 'send_msg'):
@@ -83,6 +82,10 @@ def my_test_endpoint():
         return jsonify({'answer': ans})
     elif(input_json['cmd'] == 'get_dialogs'):
         ans = get_dialogs(meta.tables['dialogs'], conn)
+        for i in ans:
+            ans1 = get_user_from_dialog(meta.tables['dialogs'], conn,{"id_dialog" : int(i["id_dialog"])})
+
+            i["users"] = ans1
         return jsonify({'answer': ans})
     elif (input_json['cmd'] == 'test'):
         ans = test(meta.tables['user'], conn)
@@ -90,15 +93,22 @@ def my_test_endpoint():
     elif (input_json['cmd'] == 'login'):
         ans = login(meta.tables['user'], conn, input_json)
         return jsonify({'answer': ans})
-    # elif (input_json['cmd'] == 'registration'):
-    #     ans = registration(meta.tables['user'], conn, input_json)
-    #     return jsonify({'answer': ans})
+    elif (input_json['cmd'] == 'registration'):
+        ans = registration(meta.tables['user'], conn, input_json)
+        return jsonify({'answer': ans})
     elif (input_json['cmd'] == 'get_user_info'):
         ans = get_user_info(meta.tables['user'], conn, input_json)
         return jsonify({'answer': ans})
     elif (input_json['cmd'] == 'get_user_from_dialog'):
         ans = get_user_from_dialog(meta.tables['user_dialog'], conn, input_json)
+        for i in ans:
+            ans1 = get_user_info(meta.tables["user"], conn, {"id_user": i["id_user"]})
+            i["first_name"] = ans1["first_name"]
+            i["last_name"] = ans1["last_name"]
+            i["photo"] = ans1["photo"]
+            print(ans1)
         return jsonify({'answer': ans})
+        # return jsonify({'answer': ans})
     elif (input_json['cmd'] == 'weather_now'):
         ans = weather.WeatherNow(weather.GetCityId(input_json["city"]))
         print(ans)
@@ -108,18 +118,40 @@ def my_test_endpoint():
         print(ans)
         return jsonify({'answer': ans})
     elif (input_json['cmd'] == 'get_msg_from_dialog'):
-        ans = get_msg_from_dialog(meta.tables["messaging"], conn, input_json)
+        ans = get_msg_from_dialog(meta.tables["messaging"], meta.tables["user"], conn, input_json)
         print(ans)
+        for i in ans:
+            ans1 = get_user_info(meta.tables["user"], conn, {"id_user": i["id_user"]})
+            i["first_name"] = ans1["first_name"]
+            i["last_name"] = ans1["last_name"]
+            i["photo"] = ans1["photo"]
+            print(ans1)
         return jsonify({'answer': ans})
+    elif (input_json['cmd'] == 'update_user_info'):
+        update_user_info(meta.tables['user'], conn, input_json)
+        return jsonify({'answer': 'update_user_info OK'})
 
-def get_msg_from_dialog(table, conn, input_json):
+def update_user_info(table, conn, input_json):
+    dct = input_json.copy()
+    print(dct)
+    # map(dct.pop, ["id_user", "cmd"])
+    del dct["id_user"]
+    del dct["cmd"]
+    print(dct)
+    print(input_json)
+    # conn.execute(sqlalchemy.update(table).where(table.c.id_user == input_json["id_user"]).values(dct))
+    conn.execute(sqlalchemy.update(table).where(table.c.id_user == input_json["id_user"]).values(dct))
+
+def get_msg_from_dialog(table, table_user, conn, input_json):
     lst = []
     d = conn.execute(sqlalchemy.select([table]), autoincrement=True)
     print(d)
     m = []
     for i in d:
         if(i["id_dialog"] == input_json["id_dialog"]):
-            lst.append({"user" : i["id_user"], "msg" : i["text"]})
+            # ans = get_user_info(table_user, conn, {"id_user" : i["id_user"]})
+            # lst.append({"id_user" : i["id_user"], "first_name" : ans["first_name"], "last_name" : ans["last_name"], "photo" : ans["photo"],   "msg" : i["text"]})
+            lst.append({"id_user": i["id_user"], "msg": i["text"], "time" : i["time"]})
     return lst
 
 def get_sex(id):
@@ -150,23 +182,21 @@ def get_user_info(table, conn, input_json):
         print(i)
         if(i["id_user"] == input_json["id_user"]):
             for k in range(len(d.keys())):
-                s[d.keys()[k]] = str(i[k])
+                if(d.keys()[k] != "pas"):
+                    s[d.keys()[k]] = str(i[k])
             print(s)
             return s
     return {"ans": "User with this id not find"}
 
-
-
-# def registration(table, conn, input_json): #Attention TO DO----------------------------------------------
-#     d = conn.execute(sqlalchemy.select([table]), autoincrement=True)
-#     print(d)
-#     for i in d:
-#        if(i["login"] == input_json["login"]):
-#            if(i["pas"] == input_json["pas"]):
-#                return {"ans" : "Authorization success", "id" : i["id_user"]}
-#            else:
-#                return {"ans" : "Incorrect login or password"}
-#     return {"ans": "Incorrect login or password"}
+def registration(table, conn, input_json):
+    d = conn.execute(sqlalchemy.select([table]), autoincrement=True)
+    print(d)
+    for i in d:
+        if (i["login"] == input_json["login"]):
+            return {"ans": "Username is taken"}
+    conn.execute(table.insert().values(pas = str(input_json["pas"]), login = str(input_json["login"])))
+    ans = login(table, conn, input_json)
+    return ans
 
 
 def login(table, conn, input_json):
@@ -203,15 +233,10 @@ def get_msg(table, conn):
     m = []
     for i in d:
         m.append(i[1] + ': ' + i[2])
-    for i in m:
-        print(i)
-        print(str(i), "utf8")
-        for k in range(10000):
-            print(k)
     return {"msg":m}
 
 def send_msg(table, conn, dict):
-    conn.execute(table.insert().values(text = str(dict["text"]), id_dialog=int(dict["id_dialog"]), id_user=int(dict["id_user"]), time = str("00:00")))
+    conn.execute(table.insert().values(text = str(dict["text"]), id_dialog=int(dict["id_dialog"]), id_user=int(dict["id_user"]), time = str(datetime.datetime.now().time().hour) + ':' + str(datetime.datetime.now().time().minute) + " | " + str(datetime.datetime.now().date().day) + " " + str(datetime.datetime.now().strftime("%B")) ) )
 
 def set_new_user(table, conn, dict):
     conn.execute(table.insert().values(first_name = str(dict["first_name"]), last_name = str(dict["last_name"]), pas = str(dict["pas"]), login = str(dict["login"]),  D_birth=str(dict["D_birth"]), age=int(dict["age"]), sex = str(dict["sex"]), city = str(dict["city"]), photo = str(dict["photo"]), status =  str(dict["status"])))
@@ -221,8 +246,6 @@ def set_new_dialog(table, conn, dict):
 
 def get_users(table, conn):
     d = conn.execute(sqlalchemy.select([table]), autoincrement=True)
-    print(d)
-    print(d.keys())
     m = []
     for i in d:
         # s = {}
@@ -230,34 +253,24 @@ def get_users(table, conn):
         #     s[d.keys()[k]] = str(i[k])
         # m.append(s)
         m.append({"id_user": i["id_user"], "first_name": i["first_name"], "last_name": i["last_name"], "photo": i["photo"]})
-    for i in m:
-        # print(i)
-        # print(str(i), "utf8")
-        for k in range(10000):
-            pass
+
     return m
 
 def get_dialogs(table, conn):
     d = conn.execute(sqlalchemy.select([table]), autoincrement=True)
-    print(d)
-    print(d.keys())
     m = []
     for i in d:
         s = {}
         for k in range(len(d.keys())):
             s[d.keys()[k]] = str(i[k])
         m.append(s)
-    for i in m:
-        # print(i)
-        # print(str(i), "utf8")
-        for k in range(10000):
-            pass
     return m
 
 
 
 if __name__ == '__main__':
-    app.run(host='192.168.31.195', port=5000, debug=True)
+    # app.run(host='192.168.31.195', port=5000, debug=True)
+    app.run(host='192.168.43.33', port=5000, debug=True)
     print("sad")
     # params = urllib.parse.quote_plus('Driver={SQL Server};'
     #                                  'Server=DESKTOP-SN1834C\SQLEXPRESS;'
@@ -278,6 +291,4 @@ if __name__ == '__main__':
     # meta = sqlalchemy.MetaData(engine, reflect=True)
     # table_l = meta.tables['login']
     # table_m = meta.tables['Mess']
-
-
 
