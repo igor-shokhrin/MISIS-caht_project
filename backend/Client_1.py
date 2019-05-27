@@ -14,7 +14,7 @@ import requests
 # dictToSend = {'cmd':'weather_now', "city": "Moscow"} #Get weather for now
 # dictToSend = {'cmd':'weather_to_five_days', "city": "Moscow"} #Get weather for 5 days
 # dictToSend = {'cmd':'test'} #Get user
-dictToSend = {'cmd':'get_user_from_dialog', "id_dialog": 1} #Get user from dialogs
+dictToSend = {'cmd':'get_user_from_dialog', "id_dialog": 2} #Get user from dialogs
 
 
 # res = requests.post('http://localh    ost:5000/tests/endpoint', json=dictToSend)
