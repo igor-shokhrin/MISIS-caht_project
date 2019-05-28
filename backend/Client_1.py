@@ -3,7 +3,7 @@ import requests
 # dictToSend = {'cmd':'get_msg'} # Get messaging
 # dictToSend = {'cmd':'send_msg', "text": "TOP of the WORD", "id_dialog":"1", "id_user": "9"} #Write mess in DB
 # dictToSend = {'cmd':'create_new_user', "first_name": "Admin", "last_name": "adminich", "pas": "admin", "login": "admin", "D_birth":"1.11.666", "age": "666", "sex": "Male", "city": "NY", "photo" : "", "status" : ""} #Create new user
-# dictToSend = {'cmd':'create_new_dialog', "Name": "Managers", "create_date":"29.04.2019", "capacity": "10"} # Create new dialog
+dictToSend = {'cmd':'create_new_dialog', "Name": "Managers13", "create_date":"29.04.2019", "capacity": "10", "users" : [1,2,3]} # Create new dialog
 # dictToSend = {'cmd':'get_users'} #Get users
 # dictToSend = {'cmd':'get_user_info', "id_user" : 8} #Get user info
 # dictToSend = {'cmd':'get_dialogs'} #Get dialog
@@ -14,7 +14,7 @@ import requests
 # dictToSend = {'cmd':'weather_now', "city": "Moscow"} #Get weather for now
 # dictToSend = {'cmd':'weather_to_five_days', "city": "Moscow"} #Get weather for 5 days
 # dictToSend = {'cmd':'test'} #Get user
-dictToSend = {'cmd':'get_user_from_dialog', "id_dialog": 2} #Get user from dialogs
+# dictToSend = {'cmd':'get_user_from_dialog', "id_dialog": 2} #Get user from dialogs
 
 
 # res = requests.post('http://localh    ost:5000/tests/endpoint', json=dictToSend)

@@ -39,7 +39,7 @@ def WeatherNow(city_id):
 def WeatherToFiveDays(city_id):
     try:
         res = requests.get("http://api.openweathermap.org/data/2.5/forecast",
-                           params={'id': city_id, 'units': 'metric', 'lang': 'ru', 'APPID': appid})
+                           params={'id': city_id, 'units': 'metric', 'lang': 'en', 'APPID': appid})
         data = res.json()
         lst = []
         for i in data['list']:
@@ -49,7 +49,8 @@ def WeatherToFiveDays(city_id):
                 s = "cloud"
             else:
                 s = "rain"
-            lst.append({"time":i['dt_txt'], "temp":'{0:+3.0f}'.format(i['main']['temp']), "conditions":s})
+            # lst.append({"time":i['dt_txt'], "temp":'{0:+3.0f}'.format(i['main']['temp']), "conditions":s})
+            lst.append({"time":i['dt_txt'], "temp":'{0:+3.0f}'.format(i['main']['temp']), "conditions": i['weather'][0]['description']})
             # print(i['dt_txt'], '{0:+3.0f}'.format(i['main']['temp']), i['weather'][0]['description'])
         return lst
     except Exception as e:

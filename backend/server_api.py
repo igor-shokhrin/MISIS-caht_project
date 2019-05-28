@@ -76,6 +76,12 @@ def my_test_endpoint():
         return jsonify({'answer': 'create_new_user OK'})
     elif(input_json['cmd'] == 'create_new_dialog'):
         set_new_dialog(meta.tables['dialogs'], conn, input_json)
+        ans = get_dialogs(meta.tables['dialogs'], conn)
+        for i in ans:
+            if(i["Name"] == input_json["Name"]):
+                for j in input_json["users"]:
+                    conn.execute(meta.tables['user_dialog'].insert().values(id_dialog = i["id_dialog"], id_user = j))
+
         return jsonify({'answer': 'create_new_dialog OK'})
     elif(input_json['cmd'] == 'get_users'):
         ans = get_users(meta.tables['user'], conn)
