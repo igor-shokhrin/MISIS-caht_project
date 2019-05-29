@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block style %}
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='pogoda.css') }}">
+
+{% endblock %}
+{% block title %}
+Чат
+{% endblock %}
+
+{% block content %}
+<div class="container">
+            <div id="main">
+                <h1 class="temp">Погода сейчас</h1>
+                <div class="row" >
+
+                    <div class="col-lg-4 col-md-4 col-xs-4 offset-lg-4">
+<br>
+                        <div class="weatherIcon">
+                            <div class={{ data["cond"] }}>
+                                <div class="inner"></div>
+                        <h1 class="temp">{{ data["t"] }}&deg;C</h1>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <h1 class="temp">Погода на 5 дней</h1>
+                            <br>
+
+                <div class="row eee" >
+                    <div class="qwe" class="col-lg-1 col-md-1 col-xs-1">
+                        <h5 >00:00</h5>
+                            </div>
+                    <div class="qwe" class="col-lg-1 col-md-1 col-xs-1">
+                        <h5 >03:00</h5>
+                            </div>
+                    <div class="qwe" class="col-lg-1 col-md-1 col-xs-1">
+                        <h5 >06:00</h5>
+                            </div>
+                    <div class="qwe" class="col-lg-1 col-md-1 col-xs-1">
+                        <h5 >09:00</h5>
+                            </div>
+                    <div  class="qwe" class="col-lg-1 col-md-1 col-xs-1">
+                        <h5 >12:00</h5>
+                            </div>
+                    <div class="qwe" class="col-lg-1 col-md-1 col-xs-1">
+                        <h5 >15:00</h5>
+                            </div>
+                    <div class="qwe" class="col-lg-1 col-md-1 col-xs-1">
+                        <h5 >18:00</h5>
+                            </div>
+                    <div class="qwe"class="col-lg-1 col-md-1 col-xs-1">
+                        <h5 >21:00</h5>
+                            </div>
+                </div>
+                                <hr style="width: 100%">
+                    <br >
+                {% for con,ddd in opo %}
+                <div class="row eer" >{{ timep[ddd] }}
+                {% for cond in con %}
+                    <div class="col-lg-1 col-md-1 col-xs-1 wp  ">
+                        <div class="weatherIcon wi ">
+                            <div class={{ cond["conditions"] }}>
+                                <div class="inner"></div>
+                        <h5 class=" tempm1 footer pull-top">{{ cond["temp"] }}&deg;C</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+                <br>
+                <br>
+                <br>
+                </div>
+                    <hr style="width: 100%">
+                    <br >
+
+                {% endfor %}
+            </div>
+</div>
+{% endblock %}

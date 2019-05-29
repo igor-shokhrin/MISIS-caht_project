@@ -148,7 +148,7 @@ border: 1px solid rgb(189, 83, 56);
 	width: 100%;
 }
 .incoming_msg_s{
-    	padding: 10px 0  20px 10px;
+    	padding: 20px 0  30px 10px;
 
 }
 .found{
@@ -193,7 +193,7 @@ padding: 60px 0 0 0;
 .d5 {background: #fffef6;
     padding-top: 0px;
     padding-bottom: 30px; /* Поле сверху */
-    padding-left: 0px;
+    padding-left: 0d5px;
 }
 .d5 form {
 
@@ -225,4 +225,80 @@ input::-webkit-input-placeholder {color: #000000;}
   font-family: FontAwesome;
   font-size: 16px;
   color: #383737;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.d8 {background: #fffef6;
+
+}
+.d8 form {
+
+
+
+}
+.d8 input, .d5 button {
+
+  border: none;
+  outline: none;
+  background: transparent;
+      background: #ff6347;
+}
+.d8 input {
+            padding-top: 0px;
+
+      width: 400px;
+  margin: 0 auto;
+  width: 100%;
+  height: 42px;
+  padding-left: 15px;
+      background: #ff6347;
+}
+input::-webkit-input-placeholder {color: #000000;}
+.d8 button {
+
+  height: 42px;
+  width: 42px;
+  position: absolute;
+  top: 0;
+  right: 0;
+      background: #ff6347;
+  cursor: pointer;
+}
+.d8 button:before {
+  content: "\f1d9";
+  font-family: FontAwesome;
+      background: #ff6347;
+  font-size: 16px;
+  color: #383737;
+}
+
+.d8 br{
+  background-color: rgba(255, 99, 71, 0);
+}
+.cp{
+  padding-top: 8px;
+  padding-bottom: 0px;
+    margin-bottom: 0px  ;
+
+}
+
+.bs{
+    padding-top: 5px;
+    background-color: tomato;
+    margin-top: 15px;
+    margin-left: 100px;
+      height: 40px;
+  width: 200px;
 }

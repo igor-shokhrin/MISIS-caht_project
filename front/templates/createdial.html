@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='search.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='ch.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main2.css') }}">
+    <script src="{{url_for('static', filename = 'js/profile.js')}}"></script>
+
+
+{% endblock %}
+{% block title %}
+Чат
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="container">
+            <div id="main">
+                <div class="row" >
+                    <div class="col-lg-4 col-md-4 col-xs-4 offset-lg-4">
+
+
+                            <form class="sendmes" name="sendu" action="/create" method="POST">
+                                <br>
+                                <h2>Создание диалога</h2>
+                                <br>
+                                <p class="cp">Введите название</p>
+                                <div class=" d8">
+                                <input autocomplete="off" class="tem"  name="name" value="Название" type="text" placeholder="Название">
+                                 </div>
+                                <p class="cp">Введите описание</p>
+                                <div class=" d8">
+                                <input autocomplete="off"  class="tem" value="Описание" name="fname" type="text" placeholder="Описание">
+                                 </div>
+                                    <p class="cp">Введите аватар</p>
+                                <div class=" d8">
+                                <input autocomplete="off"  class="tem" value="https://www.freepngimg.com/download/symbol/71395-room-icons-conversation-computer-chat-online-livechat.png" name="ava" type="text" placeholder="Описание">
+                                 </div>
+
+
+		                    <div class="gr">
+                                {% if data["members"] %}
+                                    {% for member in data["members"] %}
+                                        <div class="chat_list">
+                                          <div class="chat_people">
+                                              <div class="chat_img">
+                                                  <img src={{ member["ava"] }} alt="sunil">
+                                              </div>
+                                              <div class="chat_ib">
+
+                                                      <h5>{{ member["name"] }}
+                                                          <i  aria-hidden="true">
+                                                              <input name="id" class="d-none" value={{ member["id"] }} type="text" ><input name={{ "a" + member["id"] }} type="checkbox" ></i>
+                                                      </h5>
+
+                                                  <br>
+                                                  <p class="d-none">{{ member["id"] }}</p>
+
+                                              </div>
+                                          </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+							<button class="bs" type="submit"  class="login100-form-btn">
+								<p>Создать</p>
+							</button>
+
+                            </form>
+
+                        </div>
+                    </div><!-- /.main -->
+                </div><!-- /.main -->
+            </div><!-- /.main -->
+        </div><!-- /.container -->
+    </div>
+</div>
+
+{% endblock %}

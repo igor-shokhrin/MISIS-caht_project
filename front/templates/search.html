@@ -14,7 +14,7 @@
 <div class="d3">
 
 <form class="search_row" name="search" action="/search" method="POST">
-  <input required name="searchtext" type="text" placeholder="Поиск...">
+  <input  autocomplete="off"  required name="searchtext" type="text" placeholder="Поиск...">
   <button type="submit"></button>
 </form>
 </div>
@@ -27,16 +27,27 @@
 
         {% if data["messages"] %}
             {% for message in data["messages"] %}
+                                    <form class="sendmes" name="sendu" action="/profile" method="POST">
+                                    <input name="id" class="d-none" type="text" value={{ message["id"] }}>
+                <button class="bs pull-left pull-top" style="    border: 0;  padding: 0; background-color: #ffffff;margin-top: 0px;height: 10px;" type="submit"  class="login100-form-btn">
+								<h6>{{ message["name"] }}</h6>
+							</button>
 		<div class="incoming_msg_s">
+
 		  <div class="incoming_msg_img"> <img src={{ message["ava"] }} alt="sunil"> </div>
 		  <div class="received_msg">
 			<div class="received_withd_msg">
-                                <a class="" href={{ message["profile"] }}><h6>{{ message["name"] }}</h6></a>
+
+
+                                <a   class="" href={{ message["profile"] }}><h6> </h6></a>
+
 			  <p>{{ message["message"] }}</p>
 			  <span class="time_date"> 11:01 AM    |    June 9</span></div>
 		  </div>
 		</div>
         <hr class="divide">
+                                    </form>
+
             {% endfor %}
         {% endif %}
 

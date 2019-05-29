@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='search.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='ch.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main2.css') }}">
+    <script src="{{url_for('static', filename = 'js/profile.js')}}"></script>
+
+
+{% endblock %}
+{% block title %}
+Чат
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="container">
+            <div id="main">
+                <div class="row" >
+                    <div class="col-lg-4 col-md-4 col-xs-4 offset-lg-4">
+
+
+                            <form class="sendmes" name="sendu" action="/sendprof" method="POST">
+                                <br>
+                                <h2>Редактирование профиля</h2>
+                                <br>
+                                <p class="cp">Введите имя</p>
+                                <div class=" d8">
+                                <input autocomplete="off" class="tem"  name="name" value="{{ data_g["profile"]["name"] }}" type="text" placeholder="Имя">
+                                 </div>
+                                <p class="cp">Введите фамилию</p>
+                                <div class=" d8">
+                                <input autocomplete="off"  class="tem" value="{{  data_g["profile"]["sname"] }}" name="fname" type="text" placeholder="Фамилия">
+                                 </div>
+
+                                <p class="cp">Введите статус</p>
+                                <div class=" d8">
+                                <input autocomplete="off"  class="tem" value="{{ data_g["profile"]["status"] }}" name="status" type="text" placeholder="Статус">
+                                 </div>
+
+                                <p class="cp">Дату рождения</p>
+                                <div class=" d8">
+                                <input  autocomplete="off" class="tem" value="{{ data_g["profile"]["bd"] }}" name="bd" type="text" placeholder="День рождения">
+                                 </div>
+
+                                <p class="cp">Введите город</p>
+                                <div class=" d8">
+                                <input autocomplete="off" class="tem" value="{{ data_g["profile"]["city"] }}" name="city" type="text" placeholder="Город">
+                                 </div>
+
+                                <p class="cp">Введите пол(Male/Female)</p>
+                                <div class=" d8">
+                                <input  autocomplete="off" class="tem" value="{{ data_g["profile"]["sex"] }}" name="sex" type="text" placeholder="Пол">
+                                 </div>
+
+                                <p class="cp">Введите возраст</p>
+                                <div class=" cp d8">
+                                <input  autocomplete="off" class="tem cp" value="{{ data_g["profile"]["age"] }}" name="age" type="text" placeholder="Возраст">
+                                 </div>
+                                <p class="cp">Ссылка на аватар</p>
+                                <div class=" d8">
+                                <input autocomplete="off"  class="tem" value="{{ data_g["profile"]["ava"] }}" name="ava" type="text" placeholder="Аватар">
+                                 </div>
+							<button class="bs" type="submit"  class="login100-form-btn">
+								<p>Сохранить</p>
+							</button>
+
+                            </form>
+
+                        </div>
+                    </div><!-- /.main -->
+                </div><!-- /.main -->
+            </div><!-- /.main -->
+        </div><!-- /.container -->
+    </div>
+</div>
+
+{% endblock %}

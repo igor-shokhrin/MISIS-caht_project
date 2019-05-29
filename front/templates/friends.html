@@ -16,32 +16,41 @@
 </div>
 <div class="container">
   <div class="row">
-
-
     <div  class="col-xs-10  col-xl-8 offset-xl-2">
 
 
 		<div class="gr">
-                        {% if data["members"] %}
+            {% if data["members"] %}
                 {% for member in data["members"] %}
-		<div class="chat_list">
-		  <div class="chat_people">
-			<div class="chat_img"> <img src={{ member["ava"] }} alt="sunil"> </div>
-			<div class="chat_ib">
-                                            <a class="a-top" href={{ member["url"] }}><h5>{{ member["name"] }}
-                                            <i class="fa fa-check-circle-o    online" aria-hidden="true">&nbsp;</i>
-                                            </h5></a>
-			  <br>
-			  <p>{{ member["status"] }}</p>
-                <a href="#" class="green">Сообщение</a>
-			</div>
-		  </div>
-		</div>
+                    <form class="sendmes" name="sendu" action="/profile" method="POST">
+                    <div class="chat_list">
+                      <div class="chat_people">
+                          <div class="chat_img">
+                              <img src={{ member["ava"] }} alt="sunil">
+                          </div>
+                          <div class="chat_ib">
+                              <a class="a-top" href=#>
+                                  <h5>{{ member["name"] }}
+                                      <i class="fa fa-check-circle-o    online" aria-hidden="true">&nbsp;</i>
+                                  </h5>
+                              </a>
+                              <br>
+                              <p>{{ member["status"] }}</p>
+                              <input name="id" class="d-none" type="text" value={{ member["id"] }}>
+                              							<button class="bs pull-right pull-top" style="margin-bottom: 20px " type="submit"  class="login100-form-btn">
+								<p style="color: #111111">Профиль</p>
+							</button>
+                          </div>
+                      </div>
+                    </div>
+                    </form>
                 {% endfor %}
             {% endif %}
-		</div>
-		</div>
-		</div>
-		</div>
-		</div>
+        </div>
+
+
+    </div>
+</div>
+</div>
+    </div>
 {% endblock %}

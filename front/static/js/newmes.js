@@ -61,13 +61,8 @@ $.ajax({
     }
     });
 
-var div = $(".msg_history");
-div.scrollTop(div.prop('scrollHeight'));
 }
 
-
-var div1 = $(".msg_history");
-div1.scrollTop(div1.prop('scrollHeight'));
     setInterval(get_len, 5000);
 }());
 
@@ -144,7 +139,7 @@ return false;
 }
 
 function selectdial(id) {
-console.log(id)
+    console.log(id)
 
     $.ajax({
     type: "POST",
@@ -196,6 +191,8 @@ console.log(id)
                 sp.appendTo(d2);
                 d1.appendTo('.wd');
             }
+            var div = $(".msg_history");
+            div.scrollTop(div.prop('scrollHeight'));
         } );
         //console.log(mgs);
     },
@@ -204,6 +201,5 @@ console.log(id)
     }
     });
 
-var div = $(".msg_history");
-div.scrollTop(div.prop('scrollHeight'));
+
 }

@@ -1,7 +1,7 @@
 from flask import Flask, render_template, flash, redirect, request, url_for,session,jsonify,json
 from flask_login import LoginManager,UserMixin,current_user, login_user,logout_user
 import os
-import requests
+import requests,datetime
 
 
 app = Flask(__name__)
@@ -14,7 +14,7 @@ class User(UserMixin):
     id_t = 0
     username = ""
     age = ""
-    ava = ""
+    ava = "https://fashion-stickers.ru/26762-thickbox_default/znak-voprosa.jpg"
     birth = ""
     city = ""
     status = ""
@@ -32,7 +32,7 @@ class User(UserMixin):
 @login.user_loader
 def load_user(user):
     return User.getid(all_user[user])
-ip = 'http://192.168.43.33:5000/tests/endpoint'
+ip = 'http://192.168.31.195:5000/tests/endpoint'
 data_g = {}
 @app.route('/main')
 def main():
@@ -44,6 +44,7 @@ def main():
     data_i = {}
     data_i["dial"] = []
     data_i["mess_ch"] = []
+    res["answer"]=list(reversed(res["answer"]))
     for d in res["answer"]:
         #print(current_user.id)
         dial = {}
@@ -69,53 +70,12 @@ def main():
             mess_in["name"] = ms["first_name"] + " " + ms["last_name"]
             mess_in["ava"] = ms["photo"]
             mess_in["st"] = "in"
+            mess_in["id"] = ms["id_user"]
             if ms["id_user"] == current_user.id:
                 mess_in["st"] = "out"
             mess_in["time"] = ms["time"]
             data_i["mess_ch"].append(mess_in)
-    """
-    data_in = {}
-    data_in["name"] = "Никита Умников"
-    data_in["mess_ch"] = []
-    mess_in = {}
-    mess_in["text"] = "Test which is a new approach to have all solutions"
-    mess_in["url"] = "/profile"
-    mess_in["name"] = "Игорь Шохрин"
-    mess_in["ava"] = "https://ptetutorials.com/images/user-profile.png"
-    mess_in["st"] = "in"
-    mess_in["time"] = "11:01 AM | June 9"
-    mess_out = {}
-    mess_out["text"] = "Test which is a new approach to have all solutions"
-    mess_out["name"] = "Игорь Шохрин"
-    mess_out["st"] = "out"
-    mess_out["time"] = "11:01 AM | June 9"
-    data_in["mess_ch"].append(mess_in)
-    data_in["mess_ch"].append(mess_out)
-    data_in["mess_ch"].append(mess_in)
-    data_in["mess_ch"].append(mess_in)
-    data_in["mess_ch"].append(mess_out)
-    data_in["mess_ch"].append(mess_in)
-    data_in["dial"] = []
-    dial = {}
-    dial["text"] = "Test which is a new approach to have all solutions"
-    dial["url"] = "/profile"
-    dial["name"] = "Игорь Шохрин"
-    dial["ava"] = "https://ptetutorials.com/images/user-profile.png"
-    dial["time"] = "Dec 25"
-    """
 
-    #data_i["dial"].append(dial)
-    #data_in["dial"].append(dial)
-    #data_in["dial"].append(dial)
-    #data_in["dial"].append(dial)
-    #data_in["dial"].append(dial)
-
-    #data = data_in
-    """
-    if request.form:
-        dictToSend = {'cmd': 'send_msg', "text": request.form["msg"], "id_dialog": "1", "id_user":  int(current_user.id)}
-        res = requests.post(ip, json=dictToSend).json()
-    """
     if not session.get('logged_in'):
         return render_template('login.html')
     return render_template('main.html',data_g=data_g,data=data_i)
@@ -129,13 +89,12 @@ def out():
 
 @app.route('/')
 def home():
-    #return render_template('index1.html')
-
+    #return render_template('pogoda.html')
+    #return redirect(url_for("pogoda"))
     if not session.get('logged_in'):
-        return render_template('login.html')
+       return render_template('login.html')
     else:
         return redirect(url_for("main"))
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def do_admin_login():
@@ -171,6 +130,39 @@ def do_admin_login():
             return redirect(url_for("main"))
     return render_template('login.html')
 
+@app.route('/logvk', methods=['GET', 'POST'])
+def logvk():
+    if current_user.is_authenticated:
+        return redirect(url_for("main"))
+    login = "1"
+    password = "1"
+
+    if request.form:
+        dictToSend = {'cmd': 'login', "pas": request.form['pass'], "login": request.form['username']}
+        res = requests.post(ip, json=dictToSend).json()
+        #if request.form['pass'] == password and request.form['username'] == login:
+        if res["answer"]['ans'] == "Authorization success":
+
+            data_g["id"] = res["answer"]['id']
+            session['logged_in'] = True
+            dictToSend = {'cmd':'get_user_info', "id_user" : res["answer"]['id']}
+            res = requests.post(ip, json=dictToSend).json()
+            data_g["name"] = res["answer"]['first_name'] + ' ' + res["answer"]['last_name']
+            user = User(data_g["id"])
+            user.username = data_g["name"]
+            user.id_t = data_g["id"]
+            user.age = res["answer"]['age']
+            user.ava = res["answer"]['photo']
+            user.birth = res["answer"]['D_birth']
+            user.city = res["answer"]['city']
+            user.status = res["answer"]['status']
+            user.regtime = "--"#res["answer"]['age']
+            user.country = "--"#res["answer"]['age']
+            user.sex = res["answer"]['sex']
+            all_user[str(data_g["id"])] = user
+            login_user(user)
+            return redirect(url_for("main"))
+    return render_template('logvk.html')
 
 @app.route('/reg', methods=['GET', 'POST'])
 def reg():
@@ -198,7 +190,8 @@ def regvk():
     #if current_user.is_authenticated:
     #    return redirect(url_for("main"))
     if request.form:
-        dictToSend = {'cmd': 'registration', "pas": request.form['pass'], "login": request.form['username']}
+        print(request.form)
+        dictToSend = {'cmd': 'VK_Autorization', "password": request.form['pass'], "username": request.form['username']}
         res = requests.post(ip, json=dictToSend).json()
         print(res)
         dictToSend = {'cmd': 'login', "pas": request.form['pass'], "login": request.form['username']}
@@ -211,8 +204,8 @@ def regvk():
             user.username = request.form['username']
             all_user[str(data_g["id"])] = user
             login_user(user)
-            #return redirect(url_for("main"))
-    return render_template('reg.html')
+            return redirect(url_for("main"))
+    return render_template('regvk.html')
 
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -221,12 +214,14 @@ def search():
     res = requests.post(ip, json=dictToSend).json()
     data_in = {}
     data_in["messages"] = []
+    res["answer"] = list(reversed(res["answer"]))
     for m in res["answer"]:
         message = {}
         message["name"] = m["first_name"] + m["last_name"]
         message["message"] = m["msg"]
         message["profile"] = "/profile"
         message["ava"] = m["photo"]
+        message["id"] = str(m["id_user"])
         data_in["messages"].append(message)
     data = {}
     data["messages"] = []
@@ -242,11 +237,13 @@ def groups():
     dictToSend = {'cmd': 'get_dialogs'}
     res = requests.post(ip, json=dictToSend).json()
     data_in = {}
+    print(res)
     data_in["groups"] = []
+    res["answer"] = list(reversed(res["answer"]))
     for d in res["answer"]:
         group = {}
         group["name"] = d["Name"]
-        group["descr"] = "Описание"
+        group["descr"] = d["description"]
         group["url"] = d["id_dialog"]
         group["ava"] = d["photo"]
         if str(current_user.id) in d["users"]:
@@ -261,19 +258,20 @@ def friends():
     dictToSend = {'cmd': 'get_user_from_dialog', "id_dialog": int(request.form["id"])}
     #dictToSend = {'cmd':'get_user_from_dialog', "id_dialog": request.form["id"]}
     res = requests.post(ip, json=dictToSend).json()
-    print(res)
+    urs = res["answer"]["users"]
     data_in = {}
-    data_in["name"] = "Никита Умников"
     data_in["members"] = []
-    member = {}
-    member["name"] = "Игорь Шохрин"
-    member["status"] = "Привет всем!"
-    member["url"] = "/profile"
-    member["ava"] = "https://ptetutorials.com/images/user-profile.png"
-    data_in["members"].append(member)
-    data_in["members"].append(member)
-    data_in["members"].append(member)
-    data_in["members"].append(member)
+
+    for ur in urs:
+        print(ur)
+        member = {}
+        member["name"] = ur["first_name"] + " " + ur["last_name"]
+        member["status"] =ur["status"]
+        member["url"] = "/profile"
+        member["ava"] = ur["photo"]
+        member["id"] = str(ur["id_user"])
+        data_in["members"].append(member)
+
     data = data_in
 
     return render_template('friends.html',data=data,data_g=data_g)
@@ -300,36 +298,32 @@ def notify():
 
 @app.route('/profile', methods=['GET', 'POST']  )
 def profile():
-    dictToSend = {'cmd': 'get_user_info', "id_user": data_g["id"]}
+
+    print("hey")
+    if request.form:
+        print(request.form)
+        prof_id = int(request.form["id"])
+    else:
+        prof_id = int(current_user.id)
+    sel = False
+    if int(prof_id) == int(current_user.id):
+        sel = True
+    dictToSend = {'cmd': 'get_user_info', "id_user": prof_id}
     res = requests.post(ip, json=dictToSend).json()
-    #data_g["id"] = res["answer"]['last_name']
     profile = {}
-    profile["name"] = data_g["name"]
+    current_user.username = res["answer"]['first_name'] + " " +  res["answer"]['last_name']
     profile["country"] = "Россия"
-    profile["status"] = res["answer"]['status']
+    current_user.status = res["answer"]['status']
     profile["regdate"] = "12-06-2016"
-    profile["bd"] = res["answer"]['D_birth']
-    profile["city"] = res["answer"]['city']
-    profile["sex"] = res["answer"]['sex']
-    profile["age"] = res["answer"]['age']
-    profile["ava"] = res["answer"]['photo']
+    current_user.birth = res["answer"]['D_birth']
+    current_user.city = res["answer"]['city']
+    current_user.sex = res["answer"]['sex']
+    current_user.age = res["answer"]['age']
+    current_user.ava = res["answer"]['photo']
+    eid = res["answer"]['id_user']
     data_g["profile"] = profile
-    """
-    data = {}
-    data["name"] = "Никита Умников"
-    profile = {}
-    profile["name"] = "Иван Пупкин"
-    profile["country"] = "Россия"
-    profile["status"] = "Здарова"
-    profile["regdate"] = "12-06-2016"
-    profile["lastseen"] = "	12-06-2016 / 09:11"
-    profile["city"] = "Киев"
-    profile["sex"] = "Мужской"
-    profile["age"] = "11"
-    profile["ava"] = "http://m.168.ru/files/news/mob/161538237725.jpg"
-    data["profile"] = profile
-    """
-    return render_template('profile.html',data_g=data_g)
+
+    return render_template('profile.html',data_g=data_g,sel=sel,eid = eid)
 
 @app.route('/calen')
 def calen():
@@ -479,6 +473,138 @@ def dailm():
             data_i["mess_ch"].append(mess_in)
 
     return json.dumps({'len': data_i,'idd':current_user.id_t} if not current_user.is_anonymous else 0)
+
+@app.route('/changeprof', methods=['GET', 'POST']  )
+def changeprof():
+    dictToSend = {'cmd': 'get_user_info', "id_user": int(current_user.id_t)}
+    res = requests.post(ip, json=dictToSend).json()
+    print(res)
+    data_g = {}
+    profile = {}
+    profile["name"] = res["answer"]["first_name"]
+    profile["sname"] = res["answer"]["last_name"]
+    profile["country"] = "---"
+    profile["status"] = res["answer"]['status']
+    profile["regdate"] = "12-06-2016"
+    profile["bd"] = res["answer"]['D_birth']
+    profile["city"] = res["answer"]['city']
+    profile["sex"] = res["answer"]['sex']
+    profile["age"] = res["answer"]['age']
+    profile["ava"] = res["answer"]['photo']
+    data_g["profile"] = profile
+
+    return render_template('changeprof.html',data_g=data_g)
+
+@app.route('/pogoda', methods=['GET', 'POST']  )
+def pogoda():
+    dictToSend = {'cmd': 'weather_now', "city": "Moscow"}
+    res = requests.post(ip, json=dictToSend).json()
+    print(res)
+    timep = []
+    conv = {}
+    conv["rain"] = "rain"
+    conv["clear sky"] = "sunny"
+    conv["clear"] = "sunny"
+    conv["scattered clouds"] = "sunny"
+    conv["broken clouds"] = "sunny"
+    conv["overcast clouds"] = "cloudy"
+    conv["few clouds"] = "sunny"
+    conv["moderate rain"] = "rain"
+    conv["light rain"] = "rain"
+    data={}
+    data["cond"] = conv[res["answer"]["conditions"]]
+    data["t"] = int(res["answer"]["temp"])
+    dictToSend = {'cmd':'weather_to_five_days', "city": "Moscow"}
+    res = requests.post(ip, json=dictToSend).json()
+    print(res)
+    df = []
+    day = []
+    count = 0
+    cc=0
+    for p  in res["answer"]:
+        cc+=1
+        m = {}
+        m["conditions"] =  conv[p["conditions"]]
+        m["temp"] = p["temp"]
+
+        day.append(m)
+        count += 1
+        if count == 8:
+            timep.append(p["time"].split()[0])
+            df.append(day)
+            day = []
+            count = 0
+    print(timep)
+    return render_template('pogoda.html', data=data, datac = df,timep=timep, opo=zip(df,range(0,5)))
+
+
+@app.route('/createdial')
+def createdial():
+    dictToSend = {'cmd': 'get_users'}
+    res = requests.post(ip, json=dictToSend).json()
+    print(res)
+
+    urs = res["answer"]
+    data_in = {}
+    data_in["members"] = []
+    for ur in urs:
+        print(ur)
+        member = {}
+        member["name"] = str(ur["first_name"]) + " " + str(ur["last_name"])
+        member["id"] = str(ur["id_user"])
+        member["url"] = "/profile"
+        member["ava"] = ur["photo"]
+        data_in["members"].append(member)
+
+    data = data_in
+
+    return render_template('createdial.html',data=data,data_g=data_g)
+
+
+@app.route('/create', methods=['GET', 'POST'])
+def create():
+    newdial = {}
+    data = []
+    if request.form:
+        print(request.form)
+        for atr in request.form:
+            if atr=="name":
+                newdial["name"] =request.form[atr]
+            elif atr=="fname":
+                newdial["fname"] = request.form[atr]
+            elif atr == "ava":
+                newdial["ava"] = request.form[atr]
+            else:
+                data.append(atr)
+    print(data)
+    ids = []
+    for i in range(0,len(data)):
+        try:
+            if str(data[i]).startswith("a"):
+                ids.append(int(data[i][1:]))
+        except IndexError:
+            break
+    print(ids)
+    dictToSend = {'cmd': 'create_new_dialog', "Name": newdial["name"], "create_date": str(datetime.datetime.now()),"capacity": "100","users" : ids,"photo" : newdial["ava"] }  # Create new dialog
+    res = requests.post(ip, json=dictToSend).json()
+    return redirect(url_for("groups"))
+
+
+@app.route('/sendprof', methods=['GET', 'POST'])
+def sendprof():
+    if request.form:
+        if request.form["age"] =="None":
+            aag = 0
+        else:
+            aag = request.form["age"]
+        dictToSend = {'cmd': 'update_user_info',"id_user": int(current_user.id_t), "first_name": request.form["name"],"last_name":request.form["fname"],
+                      "status": request.form["status"],"D_birth": request.form["bd"],"city": request.form["city"],
+                      "sex": request.form["sex"],"age": int(aag),"photo": request.form["ava"]}
+        res = requests.post(ip, json=dictToSend).json()
+    return redirect(url_for("profile"))
+
+
+
 
 if __name__ == '__main__':
     app.run(host='192.168.31.116',port=5000,debug=True)
