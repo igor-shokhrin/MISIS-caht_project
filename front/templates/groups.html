@@ -17,23 +17,24 @@
 <div class="container">
   <div class="row">
     <div  class="col-xl-8 offset-xl-2">
+
 		<div class="gr">
+        <p><a href="/createdial" class="sendm">Создать диалог</a></p>
             {% if data["groups"] %}
                 {% for group in data["groups"] %}
                     <div class="chat_list">
                       <div class="chat_people">
-                        <div class="chat_img"> <img src={{ group["ava"] }} alt="sunil"> </div>
+                        <div class="chat_img" > <img style="margin-left: 80px" src={{ group["ava"] }} alt="sunil"> </div>
                         <div class="chat_ib">
                             <form name="semd1" action="/friends" method="POST">
                                 <input class="d-none" type="text" value={{ group["url"] }}>
-
-                            <a class="a-top" href="/friends"><h5>{{ group["name"] }} </h5></a>
-                            <br>
-                            <p class="grdes">{{ group["descr"] }}</p></form>
-                            <form class="search_row" name="search" action="/friends" method="POST">
                               <input class="d-none" required name="id" type="text" value={{ group["url"] }} placeholder="Поиск...">
-                              <button class="green" type="submit"></button>
-                            </form>
+
+                                                <button class="pull-left pull-top" style=" border: 0;  padding: 0;padding-right: 150px; background-color: #ffffff;margin-top: 0px;margin-left: 100px;height: 10px;float: left;" type="submit"  class="login100-form-btn">
+								<h6 class="pull-left pull-top" style="padding-right: 150px;">{{ group["name"] }}</h6></button>
+                            <br>
+                            <p class="grdes" style="padding-left: 100px;">{{ group["descr"] }}</p></form>
+
                         </div>
                       </div>
                     </div>

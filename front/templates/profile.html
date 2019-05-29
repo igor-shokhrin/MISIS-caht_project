@@ -29,7 +29,12 @@
                                     <img src={{ current_user.ava }}></div>
                                     <h3>{{ current_user.username }}</h3>
                                     <p>{{ current_user.status }}</p>
-                                    <p><a href="#" class="sendm"    onclick="rm();">Сообщение</a></p>
+                                    {% if sel %}
+                                        <p><a href="/changeprof" class="sendm">Изменить профиль</a></p>
+                                        {% else %}
+                                            <p><a href="#" class="sendm"    onclick="rm();">Сообщение</a></p>
+
+                                        {% endif %}
 
                                 </div>
 
@@ -57,7 +62,8 @@
                     <div class="col-lg-12 col-md-12 col-xs-12">
 <div class="d3 d5">
 
-<form class="sendmes d-none" name="sendu" action="/profile" method="POST">
+<form class="sendmes d-none" name="sendu" action="/sendm" method="POST">
+
   <input class="tem" required name="mtext" type="text" placeholder="Введите сообщение....">
   <button type="submit" onclick="add();"></button>
 </form>

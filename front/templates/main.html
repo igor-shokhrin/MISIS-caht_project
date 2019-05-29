@@ -52,6 +52,7 @@
 	  <div class="msg_history"><div class="wd">
          {% if data["mess_ch"] %}
             {% for message in data["mess_ch"] %}
+                 <form class="sendmes" name="sendu" action="/profile" method="POST">
           {% if message["st"] == "in" %}
                 <div class="incoming_msg">
 
@@ -63,15 +64,20 @@
                       <span class="time_date"> {{ message["time"] }}</span></div>
                   </div>
                 </div>
+
             {% else %}
+
                 <div class="outgoing_msg">
                   <div class="sent_msg">
+
                     <p>{{ message["text"] }}</p>
+                      `
                       <span class="time_date"> {{ message["time"] }}</span></div>
                 </div>
                         {% endif %}
 
                       {% endfor %}
+             </form>
         {% endif %}
 	  </div>
           </div>
@@ -80,7 +86,7 @@
 
             				<form name="semd" >
 
-		  <input type="text" class="write_msg" name="msg" placeholder="Type a message" />
+		  <input autocomplete="off" type="text" class="write_msg" name="msg" placeholder="Type a message" />
 		  <button class="msg_send_btn" onclick="return sm()"><i class="fa fa-paper-plane-o" aria-hidden="true">&nbsp;</i></button>
                             </form>
 		</div>
