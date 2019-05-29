@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='ch.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='main2.css') }}">
+    <script type=text/javascript src="{{ url_for('static', filename='js/jquery-3.4.1.js') }}"></script>
+    <script type=text/javascript src="{{ url_for('static', filename='js/newmes.js') }}"></script>
+{% endblock %}
+{% block title %}
+Чат
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+
+
+    <div  class="col-xs-12  col-xl-12">
+
+      <div id="wrapper">
+      <div class="chat">
+          <div>
+<div class="messaging">
+  <div class="inbox_msg">
+	<div class="inbox_people">
+	  <div class="headind_srch">
+		<div class="recent_heading">
+		  <h4 class="q">Диалоги</h4>
+		</div>
+
+	  </div>
+	  <div class="inbox_chat scroll">
+         {% if data["dial"] %}
+            {% for dial in data["dial"] %}
+		<div class="chat_list active_chat">
+		  <div class="chat_people">
+			<div class="chat_img"> <img src={{ dial["ava"] }}> </div>
+			<div class="chat_ib">
+                <form name="semd1" >
+			  <h5><a id={{ dial["url"]}} onclick="selectdial(id)"  href="#" >{{ dial["name"] }}</a><span class="chat_date">{{ dial["time"] }}</span></h5>
+                    <p>{{ dial["text"] }}</p></form>
+			</div>
+		  </div>
+		</div>
+                                {% endfor %}
+        {% endif %}
+
+
+	  </div>
+	</div>
+	<div class="mesgs">
+	  <div class="msg_history"><div class="wd">
+         {% if data["mess_ch"] %}
+            {% for message in data["mess_ch"] %}
+                 <form class="sendmes" name="sendu" action="/profile" method="POST">
+          {% if message["st"] == "in" %}
+                <div class="incoming_msg">
+
+                  <div class="incoming_msg_img"> <img src={{ message["ava"] }}> </div>
+                  <div class="received_msg">
+                    <div class="received_withd_msg">
+                        <p><a href={{ message["url"] }}>{{ message["name"] }}</a><br>
+                           {{ message["text"] }}</p>
+                      <span class="time_date"> {{ message["time"] }}</span></div>
+                  </div>
+                </div>
+
+            {% else %}
+
+                <div class="outgoing_msg">
+                  <div class="sent_msg">
+
+                    <p>{{ message["text"] }}</p>
+                      `
+                      <span class="time_date"> {{ message["time"] }}</span></div>
+                </div>
+                        {% endif %}
+
+                      {% endfor %}
+             </form>
+        {% endif %}
+	  </div>
+          </div>
+	  <div class="type_msg">
+		<div class="input_msg_write">
+
+            				<form name="semd" >
+
+		  <input autocomplete="off" type="text" class="write_msg" name="msg" placeholder="Type a message" />
+		  <button class="msg_send_btn" onclick="return sm()"><i class="fa fa-paper-plane-o" aria-hidden="true">&nbsp;</i></button>
+                            </form>
+		</div>
+	  </div>
+	</div>
+  </div>
+</div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+{% endblock %}

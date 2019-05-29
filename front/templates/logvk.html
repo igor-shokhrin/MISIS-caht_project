@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Login</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+
+	<link rel="stylesheet" type="text/css" href="util.css">
+	<link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='search.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='material-design-iconic.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='util.cs') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='q3.css') }}">
+
+<!--===============================================================================================-->
+</head>
+<body>
+
+	<div class="limiter">
+		<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
+			<div class="wrap-login100 p-l-55 p-r-55 p-t-10 p-b-10">
+				<form class="login100-form validate-form"  name="login" action="/login" method="POST">
+					<span class="login100-form-title p-b-28">
+						Вход
+					</span>
+
+					<div class="wrap-input100 validate-input m-b-23" data-validate = "Username is reauired">
+						<span class="label-input100">Имя пользователя</span>
+						<input required class="input100" type="text" name="username" placeholder="Введите имя">
+						<span class="focus-input100" data-symbol="&#xf206;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Password is required">
+						<span class="label-input100">Пароль</span>
+						<input required class="input100" type="password" name="pass" placeholder="Введите пароль">
+						<span class="focus-input100" data-symbol="&#xf190;"></span>
+					</div>
+
+					<div class="text-right p-t-8 p-b-31">
+						<a href="/reg">
+							Забыли пароль?
+						</a>
+					</div>
+										<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+
+                                    <input  class="login100-form-btn" type="submit" value="Войти" >
+
+						</div>
+					</div>
+
+				</form>
+
+					<div class="txt1 text-center p-t-54 p-b-20">
+						<span>
+							Или войдите с помощью
+						</span>
+					</div>
+                <form action="">
+					<div class="flex-c-m">
+<br>
+
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button formaction="/reg" class="login100-form-btn">
+								Регистрация
+							</button>
+						</div>
+					</div>
+
+			        </div>
+                    </form>
+		</div>
+	</div>
+	</div>
+
+
+	<div id="dropDownSelect1"></div>
+
+
+</body>
+</html>

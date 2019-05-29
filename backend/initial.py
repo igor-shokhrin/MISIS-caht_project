@@ -1,0 +1,15 @@
+# //////////////////////////////////////////////////////////////////////////////////
+# // Company: MISIS (МПИ-18-2-2)
+# // Engineer: Igor Shokhrin (i.shokhrin@iva-tech.org)
+# //
+# // Create date: 27/02/2019
+# // Project Name: MISIS chat project
+# // Module Name: initial
+# // Description:
+# // Revision:
+# // Revision 0.01 - File Created
+# // Additional Comments:
+# //  
+# /////////////////////////////////////////////////////////////////////////////////
+
+
