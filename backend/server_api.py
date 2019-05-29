@@ -60,7 +60,7 @@ def my_test_endpoint():
         try:
             a = kontakt.get_user_photo(input_json['username'],input_json['password'])
             # print(int(datetime.datetime.now().year) - int(str(a[0]['bdate'])[4:]))
-            dictr = {"first_name": a[0]["first_name"], "last_name" : a[0]["last_name"], "pas" : input_json["password"], "login" : input_json["username"],  "D_birth" : a[0]["bdate"], "age" : int(datetime.datetime.now().year) - int(datetime.datetime.strptime(str(a[0]['bdate']), "%d.%m.%Y").year), "sex" : get_sex(a[0]["sex"]), "city" : a[0]["city"]["title"], "photo" :   a[0]["photo_50"], "status": ""}
+            dictr = {"first_name": a[0]["first_name"], "last_name" : a[0]["last_name"], "pas" : input_json["password"], "login" : input_json["username"],  "D_birth" : a[0]["bdate"], "age" : int(datetime.datetime.now().year) - int(datetime.datetime.strptime(str(a[0]['bdate']), "%d.%m.%Y").year), "sex" : get_sex(a[0]["sex"]), "city" : a[0]["city"]["title"], "photo" :   a[0]["photo_400_orig"], "status": ""}
             set_new_user(meta.tables['user'], conn, dictr)
             ans = login(meta.tables['user'], conn, {"pas" : input_json["password"], "login" : input_json["username"]})
         except vk.exceptions.VkAuthError:
@@ -74,6 +74,7 @@ def my_test_endpoint():
     elif(input_json['cmd'] == 'create_new_user'):
         set_new_user(meta.tables['user'], conn, input_json)
         return jsonify({'answer': 'create_new_user OK'})
+
     elif(input_json['cmd'] == 'create_new_dialog'):
         set_new_dialog(meta.tables['dialogs'], conn, input_json)
         ans = get_dialogs(meta.tables['dialogs'], conn)
@@ -81,11 +82,12 @@ def my_test_endpoint():
             if(i["Name"] == input_json["Name"]):
                 for j in input_json["users"]:
                     conn.execute(meta.tables['user_dialog'].insert().values(id_dialog = i["id_dialog"], id_user = j))
-
         return jsonify({'answer': 'create_new_dialog OK'})
+
     elif(input_json['cmd'] == 'get_users'):
         ans = get_users(meta.tables['user'], conn)
         return jsonify({'answer': ans})
+
     elif(input_json['cmd'] == 'get_dialogs'):
         ans = get_dialogs(meta.tables['dialogs'], conn)
         for i in ans:
@@ -93,18 +95,23 @@ def my_test_endpoint():
             # i["users"] = (ans1["ans"])
             i["users"] = list(map(lambda x: str(x), ans1["ans"]))
         return jsonify({'answer': ans})
+
     elif (input_json['cmd'] == 'test'):
         ans = test(meta.tables['user'], conn)
         return jsonify({'answer': ans})
+
     elif (input_json['cmd'] == 'login'):
         ans = login(meta.tables['user'], conn, input_json)
         return jsonify({'answer': ans})
+
     elif (input_json['cmd'] == 'registration'):
         ans = registration(meta.tables['user'], conn, input_json)
         return jsonify({'answer': ans})
+
     elif (input_json['cmd'] == 'get_user_info'):
         ans = get_user_info(meta.tables['user'], conn, input_json)
         return jsonify({'answer': ans})
+
     elif (input_json['cmd'] == 'get_user_from_dialog'):
         ans = get_user_from_dialog(meta.tables['user_dialog'], conn, input_json)
         # print("sdasdsad")
@@ -117,14 +124,17 @@ def my_test_endpoint():
         ans["users"] = lt
         return jsonify({'answer': ans})
         # return jsonify({'answer': ans})
+
     elif (input_json['cmd'] == 'weather_now'):
         ans = weather.WeatherNow(weather.GetCityId(input_json["city"]))
         print(ans)
         return jsonify({'answer': ans})
+
     elif (input_json['cmd'] == 'weather_to_five_days'):
         ans = weather.WeatherToFiveDays(weather.GetCityId(input_json["city"]))
         print(ans)
         return jsonify({'answer': ans})
+
     elif (input_json['cmd'] == 'get_msg_from_dialog'):
         ans = get_msg_from_dialog(meta.tables["messaging"], meta.tables["user"], conn, input_json)
         for i in ans:
@@ -232,7 +242,7 @@ def set_new_user(table, conn, dict):
     conn.execute(table.insert().values(first_name = str(dict["first_name"]), last_name = str(dict["last_name"]), pas = str(dict["pas"]), login = str(dict["login"]),  D_birth=str(dict["D_birth"]), age=int(dict["age"]), sex = str(dict["sex"]), city = str(dict["city"]), photo = str(dict["photo"]), status =  str(dict["status"])))
 
 def set_new_dialog(table, conn, dict):
-        conn.execute(table.insert().values(Name = str(dict["Name"]), create_date=str(dict["create_date"]), capacity=int(dict["capacity"])))
+        conn.execute(table.insert().values(Name = str(dict["Name"]), create_date=str(dict["create_date"]), capacity=int(dict["capacity"]), photo=dict["photo"]))
 
 def get_users(table, conn):
     d = conn.execute(sqlalchemy.select([table]), autoincrement=True)
